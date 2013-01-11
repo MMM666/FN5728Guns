@@ -1,0 +1,5 @@
+DONE:ItemIDの計算方法が間違ってた
+
+DONE:着弾音
+DONE:SA無視のダメージ
+DONE:効果音の変調
