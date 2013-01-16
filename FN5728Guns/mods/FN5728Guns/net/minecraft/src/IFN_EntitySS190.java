@@ -415,7 +415,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		if(block == null) {
 			return;
 		}
-		worldObj.playAuxSFX(2001, blockX, blockY, blockZ, block.blockID + bmd * 256);
+		worldObj.playAuxSFX(2001, blockX, blockY, blockZ, bid + (bmd  << 12));
 		boolean flag = worldObj.setBlockWithNotify(blockX, blockY, blockZ, 0);
 		if (block != null && flag) {
 			block.onBlockDestroyedByPlayer(worldObj, blockX, blockY, blockZ, bmd);
