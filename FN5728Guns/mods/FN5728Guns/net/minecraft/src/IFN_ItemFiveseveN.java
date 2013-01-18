@@ -1,4 +1,4 @@
-package net.minecraft.src;
+ï»¿package net.minecraft.src;
 
 
 public class IFN_ItemFiveseveN extends IFN_ItemFN5728 {
@@ -11,7 +11,7 @@ public class IFN_ItemFiveseveN extends IFN_ItemFN5728 {
 	@Override
     public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i) {
 		if (!isReload(itemstack)) {
-			// ƒŠƒ[ƒh’†‚Å‚Í‚È‚¢
+			// ãƒªãƒ­ãƒ¼ãƒ‰ä¸­ã§ã¯ãªã„
 			if (itemstack.getItemDamage() < getMaxDamage()) {
 				int j = getMaxItemUseDuration(itemstack) - i;
 				float f = (float)j / 20F;
@@ -24,7 +24,7 @@ public class IFN_ItemFiveseveN extends IFN_ItemFN5728 {
 					itemstack.damageItem(1, entityplayer);
 				}
 			} else {
-				// ’eØ‚ê
+				// å¼¾åˆ‡ã‚Œ
 				world.playSoundAtEntity(entityplayer, "FN5728.emptyFive-seveN", 1.0F, 1.0F);
 			}
 		}
