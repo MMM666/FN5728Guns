@@ -1,4 +1,4 @@
-ï»¿// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) braces deadcode fieldsfirst 
 
@@ -57,7 +57,7 @@ public class IFN_RenderSS190 extends Render {
 		}
 		GL11.glPopMatrix();
 		
-		// æ›³å…‰å¼¾
+		// ‰gŒõ’e
 		if (entityss190.isTracer) {
 			double dx = entityss190.lastTickPosX - entityss190.posX;
 			double dy = entityss190.lastTickPosY - entityss190.posY;

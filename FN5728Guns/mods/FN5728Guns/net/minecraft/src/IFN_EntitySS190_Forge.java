@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.lang.reflect.Field;
 
@@ -25,10 +25,10 @@ public class IFN_EntitySS190_Forge extends IFN_EntitySS190 implements IEntityAdd
 		super(world, entityliving, f, speed);
 	}
 
-	// Forgeç”¨
+	// Forge—p
 	@Override
 	public void writeSpawnData(ByteArrayDataOutput data) {
-		// é€šå¸¸ã®æ–¹æ³•ã§ã¯é€Ÿåº¦ãŒè¶³ã‚Šãªã„ã®ã§ç‰¹åˆ¥ä»•æ§˜
+		// ’Êí‚Ì•û–@‚Å‚Í‘¬“x‚ª‘«‚è‚È‚¢‚Ì‚Å“Á•Êd—l
 		data.writeInt(thrower == null ? entityId : thrower.entityId);
 		data.writeInt(Float.floatToIntBits((float)motionX));
 		data.writeInt(Float.floatToIntBits((float)motionY));
@@ -37,7 +37,7 @@ public class IFN_EntitySS190_Forge extends IFN_EntitySS190 implements IEntityAdd
 
 	@Override
 	public void readSpawnData(ByteArrayDataInput data) {
-		// é€šå¸¸ã®æ–¹æ³•ã§ã¯é€Ÿåº¦ãŒè¶³ã‚Šãªã„ã®ã§ç‰¹åˆ¥ä»•æ§˜
+		// ’Êí‚Ì•û–@‚Å‚Í‘¬“x‚ª‘«‚è‚È‚¢‚Ì‚Å“Á•Êd—l
 		int lthrower = data.readInt();
 		if (lthrower != 0) {
 			Entity lentity = worldObj.getEntityByID(lthrower);

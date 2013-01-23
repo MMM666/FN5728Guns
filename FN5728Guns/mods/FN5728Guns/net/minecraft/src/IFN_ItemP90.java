@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.lang.reflect.Field;
 
@@ -21,16 +21,16 @@ public class IFN_ItemP90 extends IFN_ItemFN5728 {
 			if (entityplayer.isUsingItem() && itemstack == entityplayer.getCurrentEquippedItem()) {
 //			if (itemstack != null && entityplayer.getItemInUse() == itemstack) {
 				if (lflag && !isReload(itemstack)) {
-					// ç™ºå°„
+					// ”­Ë
 					if (itemstack.getItemDamage() < getMaxDamage()) {
-						// ç™ºå°„
+						// ”­Ë
 //						if (fireBullet(itemstack, world, entityplayer, 0F, itemRand.nextFloat() * -0.3F, 13.8F)) {
 						if (fireBullet(itemstack, world, entityplayer, 0F, itemRand.nextFloat() * -0.3F, 35.8F)) {
 							itemstack.damageItem(1, entityplayer);
 						}
 						resetBolt(itemstack);
 					} else {
-						// å¼¾åˆ‡ã‚Œ
+						// ’eØ‚ê
 						if (canReload(itemstack, entityplayer)) {
 							entityplayer.stopUsingItem();
 						}
@@ -51,7 +51,7 @@ public class IFN_ItemP90 extends IFN_ItemFN5728 {
 	public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
 		itemstack = super.onItemRightClick(itemstack, world, entityplayer);
 		if (!isReload(itemstack) && itemstack.getItemDamage() >= getMaxDamage()) {
-			// å¼¾åˆ‡ã‚Œ
+			// ’eØ‚ê
 			world.playSoundAtEntity(entityplayer, "FN5728.emptyP90s", 1.0F, 1.0F);
 		}
 		return itemstack;

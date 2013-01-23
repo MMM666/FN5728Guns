@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -65,8 +65,8 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 			return;
 		}
 		ModLoader.registerEntityID(classSS190, "SS190", fn_uniqueSS190);
-		// Modloaderç’°å¢ƒä¸‹ã§ã¯fn_uniqueSS190ãŒ255ä»¥ä¸‹ã§ãªã„ã¨SpawnEntityãŒå‘¼ã°ã‚Œãªã„ã€‚
-		// å€¤ã‚’ç®¡ç†ã™ã‚‹ã®ãŒã‚ã‚“ã©ã„ã®ã§ã‚¹ãƒãƒ¼ãƒ³åˆ¤å®šã¯åˆ¥ã§ä½œã‚‹ã€‚
+		// ModloaderŠÂ‹«‰º‚Å‚Ífn_uniqueSS190‚ª255ˆÈ‰º‚Å‚È‚¢‚ÆSpawnEntity‚ªŒÄ‚Î‚ê‚È‚¢B
+		// ’l‚ğŠÇ—‚·‚é‚Ì‚ª‚ß‚ñ‚Ç‚¢‚Ì‚ÅƒXƒ|[ƒ“”»’è‚Í•Ê‚Åì‚éB
 		ModLoader.addEntityTracker(this, classSS190, fn_uniqueSS190, 64, 10, false);
 		
 		// Five-seveN
@@ -93,22 +93,22 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 			MMM_Helper.setForgeIcon(fn_p90);
 		}
 		
-		// ã‚¿ã‚¯ãƒ†ã‚£ã‚«ãƒ«ãƒªãƒ­ãƒ¼ãƒ‰ç”¨ãƒ‘ã‚±ãƒƒãƒˆ
+		// ƒ^ƒNƒeƒBƒJƒ‹ƒŠƒ[ƒh—pƒpƒPƒbƒg
 		ModLoader.registerPacketChannel(this, "IFN");
 	}
 
 	@Override
 	public void addRenderer(Map map) {
 		if (ID_SS190 >= 0) {
-			// ç¶™æ‰¿ã‚¯ãƒ©ã‚¹ã«ã‚‚é©ç”¨ã•ã‚Œã‚‹ã®ã§å€‹åˆ¥ç™»éŒ²ã¯å¿…è¦ãªã„
+			// Œp³ƒNƒ‰ƒX‚É‚à“K—p‚³‚ê‚é‚Ì‚ÅŒÂ•Ê“o˜^‚Í•K—v‚È‚¢
 			map.put(IFN_EntitySS190.class, new IFN_RenderSS190());
 		}
 	}
 
 	@Override
 	public Entity spawnEntity(int entityId, World world, double scaledX, double scaledY, double scaledZ) {
-		// Modloaderä¸‹ã§ã¯ç‹¬è‡ªã«ç”Ÿæˆã™ã‚‹ã®ã§è¦ã‚‰ãªã„ã€‚
-		// ã¨ã„ã†ã‹ModLoaderç’°å¢ƒã§ã¯IDãŒ3000ä»¥ä¸Šã«ãªã‚‹ã®ã§ã“ã“ã¯å‘¼ã°ã‚Œãªã„ã€‚
+		// Modloader‰º‚Å‚Í“Æ©‚É¶¬‚·‚é‚Ì‚Å—v‚ç‚È‚¢B
+		// ‚Æ‚¢‚¤‚©ModLoaderŠÂ‹«‚Å‚ÍID‚ª3000ˆÈã‚É‚È‚é‚Ì‚Å‚±‚±‚ÍŒÄ‚Î‚ê‚È‚¢B
 		if (!MMM_Helper.isForge) return null;
 		try {
 			Constructor<IFN_EntitySS190> lconstructor = classSS190.getConstructor(World.class);
@@ -124,15 +124,15 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 	//Modloader
 	@Override
 	public Packet23VehicleSpawn getSpawnPacket(Entity var1, int var2) {
-		// å¼¾ã‚’ç™ºç”Ÿã•ã›ã‚‹
-		// Forgeç’°å¢ƒä¸‹ã§ã¯å‘¼ã°ã‚Œãªã„
+		// ’e‚ğ”­¶‚³‚¹‚é
+		// ForgeŠÂ‹«‰º‚Å‚ÍŒÄ‚Î‚ê‚È‚¢
 		EntityLiving lentity = ((IFN_EntitySS190)var1).thrower;
 		return new IFN_PacketSS190Spawn(var1, fn_uniqueSS190, lentity == null ? 0 : lentity.entityId);
 	}
 
 	@Override
 	public void serverCustomPayload(NetServerHandler handler, Packet250CustomPayload packet) {
-		// ã‚¿ã‚¯ãƒ†ã‚£ã‚«ãƒ«ãƒªãƒ­ãƒ¼ãƒ‰ç”¨
+		// ƒ^ƒNƒeƒBƒJƒ‹ƒŠƒ[ƒh—p
 		EntityPlayerMP lplayer = handler.playerEntity;
 		ItemStack lis = lplayer.getCurrentEquippedItem();
 		if (lis != null && lis.getItem() instanceof IFN_ItemFN5728) {

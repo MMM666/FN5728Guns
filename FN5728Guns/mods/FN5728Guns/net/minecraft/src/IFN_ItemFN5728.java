@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -10,11 +10,11 @@ import java.util.Map;
 public abstract class IFN_ItemFN5728 extends ItemBow {
 	
 	/*
-	 * ãƒªãƒ­ãƒ¼ãƒ‰ã®ã‚·ãƒ¼ã‚±ãƒ³ã‚¹
-	 * 0x0000	:å°„æ’ƒçŠ¶æ…‹
-	 * 0x1000	:ãƒªãƒ­ãƒ¼ãƒ‰é–‹å§‹
-	 * 0x2000	:ãƒã‚¬ã‚¸ãƒ³ãƒªãƒªãƒ¼ã‚¹ã€ä¸‹ä½24bitã¯ãƒªãƒ­ãƒ¼ãƒ‰æ™‚ã®æ®‹å¼¾
-	 * 0x8000	:ãƒªãƒ­ãƒ¼ãƒ‰å®Œäº†
+	 * ƒŠƒ[ƒh‚ÌƒV[ƒPƒ“ƒX
+	 * 0x0000	:ËŒ‚ó‘Ô
+	 * 0x1000	:ƒŠƒ[ƒhŠJn
+	 * 0x2000	:ƒ}ƒKƒWƒ“ƒŠƒŠ[ƒXA‰ºˆÊ24bit‚ÍƒŠƒ[ƒh‚Ìc’e
+	 * 0x8000	:ƒŠƒ[ƒhŠ®—¹
 	 */
 	
 	
@@ -31,24 +31,24 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 
 	@Override
 	public ItemStack onFoodEaten(ItemStack itemstack, World world, EntityPlayer entityplayer) {
-		// ãƒªãƒ­ãƒ¼ãƒ‰å®Œäº†
+		// ƒŠƒ[ƒhŠ®—¹
 		reloadMagazin(itemstack, world, entityplayer);
 		return itemstack;
 	}
 	
 	@Override
 	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i) {
-		// ãƒªãƒ­ãƒ¼ãƒ‰ä¸­æ­¢
+		// ƒŠƒ[ƒh’†~
 		cancelReload(itemstack, 0x8000);
 	}
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world,	EntityPlayer entityplayer) {
-		// ãƒˆãƒªã‚¬ãƒ¼
+		// ƒgƒŠƒK[
 		int li = getReload(itemstack);
 		if (li <= 0) {
 			if (canReload(itemstack, entityplayer)) {
-				// ãƒãƒ¼ãƒãƒ«ãƒªãƒ­ãƒ¼ãƒ‰
+				// ƒm[ƒ}ƒ‹ƒŠƒ[ƒh
 				if (isEmpty(itemstack)) {
 					releaseMagazin(itemstack, world, entityplayer);
 					MMM_Helper.updateCheckinghSlot(entityplayer, itemstack);
@@ -57,7 +57,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 		}
 		if (li == 0x0010) {
 			if (canReload(itemstack, entityplayer)) {
-				// ã‚¿ã‚¯ãƒ†ã‚£ã‚«ãƒ«ãƒªãƒ­ãƒ¼ãƒ‰
+				// ƒ^ƒNƒeƒBƒJƒ‹ƒŠƒ[ƒh
 				releaseMagazin(itemstack, world, entityplayer);
 				MMM_Helper.updateCheckinghSlot(entityplayer, itemstack);
 			}
@@ -70,7 +70,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	public void onUpdate(ItemStack itemstack, World world, Entity entity, int i, boolean flag) {
 		if (world.isRemote) {
 			if (MMM_Helper.mc.thePlayer != entity) {
-				// ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã®ä¿æŒã—ã¦ã„ã‚‹ãƒ—ãƒ¬ãƒ¼ãƒ¤ãƒ¼ä»¥å¤–ã¯å‡¦ç†ã™ã‚‹å¿…è¦ãŒãªã„
+				// ƒNƒ‰ƒCƒAƒ“ƒg‚Ì•Û‚µ‚Ä‚¢‚éƒvƒŒ[ƒ„[ˆÈŠO‚Íˆ—‚·‚é•K—v‚ª‚È‚¢
 				return;
 			}
 			if (entity instanceof EntityPlayer) {
@@ -78,11 +78,11 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 					return;
 				}
 			}
-			// ãƒãƒ«ãƒç”¨ã‚¿ã‚¯ãƒ†ã‚£ã‚«ãƒ«ãƒªãƒ­ãƒ¼ãƒ‰åˆ¤å®šå‡¦ç†
+			// ƒ}ƒ‹ƒ`—pƒ^ƒNƒeƒBƒJƒ‹ƒŠƒ[ƒh”»’èˆ—
 			int li = getReload(itemstack);
 			try {
-				// ã‚¯ã‚¢ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆå°‚ç”¨ã‚³ãƒ¼ãƒ‰ãªã®ã§ForgeMPã ã¨ã‚¨ãƒ©ãƒ¼ãŒå‡ºã‚‹
-				// ã¨ã„ã†ã‹ä½•ã§ãƒãƒ«ãƒå´ã§ModloaderãŒã‚ˆã¹ã‚‹ã‚“ãƒ»ãƒ»ãƒ»ã€‚
+				// ƒNƒAƒ‰ƒCƒAƒ“ƒgê—pƒR[ƒh‚È‚Ì‚ÅForgeMP‚¾‚ÆƒGƒ‰[‚ªo‚é
+				// ‚Æ‚¢‚¤‚©‰½‚Åƒ}ƒ‹ƒ`‘¤‚ÅModloader‚ª‚æ‚×‚é‚ñEEEB
 				if (MMM_Helper.mc.gameSettings.keyBindAttack.pressed) {
 					if (li == 0x0000) {
 //						System.out.println("tacticalIFN");
@@ -106,7 +106,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 
 	@Override
 	public int getMaxItemUseDuration(ItemStack itemstack) {
-		// ãƒªãƒ­ãƒ¼ãƒ‰æ™‚ã¯æ™‚é–“ã‚’å¤‰æ›´
+		// ƒŠƒ[ƒh‚ÍŠÔ‚ğ•ÏX
 		int li = getReload(itemstack);
 		if ((li >= 0x1000) && (li & 0xf000) < 0x8000) {
 			return reloadTime();
@@ -117,14 +117,14 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 
 	@Override
 	public EnumAction getItemUseAction(ItemStack itemstack) {
-		// ãƒªãƒ­ãƒ¼ãƒ‰æ™‚ã¯æ§‹ãˆãŒé•ã†
+		// ƒŠƒ[ƒh‚Í\‚¦‚ªˆá‚¤
 		return isReload(itemstack) ? EnumAction.block : EnumAction.bow;
 	}
 
 
-	// ç‹¬è‡ª
+	// “Æ©
 	protected boolean fireBullet(ItemStack itemstack, World world, EntityPlayer entityplayer, float f, float f2, float f3) {
-		// ç™ºå°„ï¼ˆã‚¨ãƒ³ãƒãƒ£ãƒ³ãƒˆå¯¾å¿œï¼‰
+		// ”­ËiƒGƒ“ƒ`ƒƒƒ“ƒg‘Î‰j
 		if (!world.isRemote) {
 			IFN_EntitySS190 entityss190 = null;
 			try {
@@ -155,7 +155,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 			world.spawnEntityInWorld(entityss190);
 		}
 		entityplayer.rotationPitch += f2;
-		// ç„¡é™å¼¾ã®ã‚¨ãƒ³ãƒãƒ£ãƒ³ãƒˆã«å¯¾å¿œã€å¼¾è–¬ä½¿ç”¨æ™‚ã¯trueã‚’è¿”ã™
+		// –³ŒÀ’e‚ÌƒGƒ“ƒ`ƒƒƒ“ƒg‚É‘Î‰A’e–òg—p‚Ítrue‚ğ•Ô‚·
 		return (!mod_IFN_FN5728Guns.UnlimitedInfinity 
 				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, itemstack) <= 0)
 				&& !entityplayer.capabilities.isCreativeMode;
@@ -163,13 +163,13 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 
 	protected void cancelReload(ItemStack itemstack, int force) {
 		if (getReload(itemstack) >= force) {
-			// ãƒªãƒ­ãƒ¼ãƒ‰ã®ã‚­ãƒ£ãƒ³ã‚»ãƒ«
+			// ƒŠƒ[ƒh‚ÌƒLƒƒƒ“ƒZƒ‹
 			setReload(itemstack, 0);
 		}
 	}
 
 	protected boolean canReload(ItemStack itemstack, EntityPlayer entityplayer) {
-		// ãƒªãƒ­ãƒ¼ãƒ‰ãŒå¯èƒ½ã‹ã©ã†ã‹ã®åˆ¤å®šï¼ˆã‚¨ãƒ³ãƒãƒ£ãƒ³ãƒˆå¯¾å¿œï¼‰
+		// ƒŠƒ[ƒh‚ª‰Â”\‚©‚Ç‚¤‚©‚Ì”»’èiƒGƒ“ƒ`ƒƒƒ“ƒg‘Î‰j
 //		if (entityplayer.capabilities.depleteBuckets || EnchantmentHelper.getEnchantmentLevel(Enchantment.field_46042_v.effectId, itemstack) > 0) return true;
 		if (entityplayer.capabilities.isCreativeMode) return true;
 		for (ItemStack is : entityplayer.inventory.mainInventory) {
@@ -179,26 +179,26 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	}
 
 	protected boolean isEmpty(ItemStack itemstack) {
-		// æ®‹å¼¾ã‚¼ãƒ­ï¼Ÿ
+		// c’eƒ[ƒH
 		return itemstack.getItemDamage() >= getMaxDamage();
 	}
 
 	protected void releaseMagazin(ItemStack itemstack, World world, Entity entity) {
-		// ãƒã‚¬ã‚¸ãƒ³ã‚’ãƒªãƒªãƒ¼ã‚¹ã—ãŸã¨ãã®å‹•ä½œã€æ®‹å¼¾ã‚’è¨˜éŒ²
+		// ƒ}ƒKƒWƒ“‚ğƒŠƒŠ[ƒX‚µ‚½‚Æ‚«‚Ì“®ìAc’e‚ğ‹L˜^
 		setReload(itemstack, (0x2000 | (itemstack.getItemDamage() & 0x0fff)));
 		itemstack.setItemDamage(getMaxDamage());
 	}
 
 	protected void reloadMagazin(ItemStack itemstack, World world, EntityPlayer entityplayer) {
-		// ãƒã‚¬ã‚¸ãƒ³ã‚’å…¥ã‚ŒãŸã¨ãã®å‹•ä½œ
+		// ƒ}ƒKƒWƒ“‚ğ“ü‚ê‚½‚Æ‚«‚Ì“®ì
 //		if (!world.isRemote) 
 		{
-			// ãƒªãƒ­ãƒ¼ãƒ‰
+			// ƒŠƒ[ƒh
 			if (entityplayer == null || entityplayer.capabilities.isCreativeMode
 					|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, itemstack) > 0) {
 				itemstack.setItemDamage(0);
 			} else {
-				// ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã‹ã‚‰å¼¾è–¬ã‚’æ¸›ã‚‰ã™
+				// ƒCƒ“ƒxƒ“ƒgƒŠ‚©‚ç’e–ò‚ğŒ¸‚ç‚·
 				int k = getReload(itemstack);
 				k = (k > 0) ? k & 0x0fff : 0;
 				for (int l = 0; l < entityplayer.inventory.mainInventory.length; l++) {
@@ -222,29 +222,29 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 		MMM_Helper.updateCheckinghSlot(entityplayer, itemstack);
 	}
 
-	// ãƒªãƒ­ãƒ¼ãƒ‰ã«ã‹ã‹ã‚‹æ™‚é–“
+	// ƒŠƒ[ƒh‚É‚©‚©‚éŠÔ
 	public abstract int reloadTime();
 	
 	public int getBulletID(ItemStack itemstack) {
-		// å¼¾è–¬ã®ç¨®é¡
+		// ’e–ò‚Ìí—Ş
 		return mod_IFN_FN5728Guns.fn_SS190.itemID;
 	}
 	
-	// littleMaidMobã¯ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’å‚ç…§ã—ã¦ç‰¹æ®Šå‹•ä½œã‚’è¡Œã„ã¾ã™
+	// littleMaidMob‚Í‚±‚Ìƒƒ\ƒbƒh‚ğQÆ‚µ‚Ä“Áê“®ì‚ğs‚¢‚Ü‚·
 	public boolean isWeaponReload(ItemStack itemstack, EntityPlayer entityplayer) {
-		// ãƒªãƒ­ãƒ¼ãƒ‰å®Ÿè¡Œã™ã‚‹ã¹ãã‹ï¼Ÿ
+		// ƒŠƒ[ƒhÀs‚·‚é‚×‚«‚©H
 		cancelReload(itemstack, 0x8000);
 		return isEmpty(itemstack) && canReload(itemstack, entityplayer);
 	}
 
 	public boolean isWeaponFullAuto(ItemStack itemstack) {
-		// ãƒ•ãƒ«ã‚ªãƒ¼ãƒˆæ­¦å™¨ã‹ï¼Ÿ
-		// ï¼ˆå³ã‚¯ãƒªãƒƒã‚¯ã—ãŸæ™‚ç‚¹ã§å°„æ’ƒé–‹å§‹ã•ã‚Œã‚‹ã‚‚ã®ï¼‰
+		// ƒtƒ‹ƒI[ƒg•Ší‚©H
+		// i‰EƒNƒŠƒbƒN‚µ‚½“_‚ÅËŒ‚ŠJn‚³‚ê‚é‚à‚Ìj
 		return false;
 	}
 
 	/**
-	 * ãƒªãƒ­ãƒ¼ãƒ‰ã‚«ã‚¦ãƒ³ã‚¿èª­ã¿å–ã‚Š
+	 * ƒŠƒ[ƒhƒJƒEƒ“ƒ^“Ç‚İæ‚è
 	 */
 	public int getReload(ItemStack pItemstack) {
 		checkTags(pItemstack);
@@ -252,7 +252,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	}
 
 	/**
-	 * ãƒªãƒ­ãƒ¼ãƒ‰ã‚«ã‚¦ãƒ³ã‚¿ã®ã‚»ãƒƒãƒˆ
+	 * ƒŠƒ[ƒhƒJƒEƒ“ƒ^‚ÌƒZƒbƒg
 	 */
 	public void setReload(ItemStack pItemstack, int pValue) {
 		checkTags(pItemstack);
@@ -261,16 +261,16 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	}
 
 	/**
-	 * ãƒªãƒ­ãƒ¼ãƒ‰ä¸­ã‹ã­ï¼Ÿ
+	 * ƒŠƒ[ƒh’†‚©‚ËH
 	 */
 	public boolean isReload(ItemStack pItemstack) {
 		return getReload(pItemstack) > 0;
 	}
 
-	// é€£å°„ç”¨ã®ã‚¿ã‚¤ãƒŸãƒ³ã‚°å›è·¯
+	// ˜AË—p‚Ìƒ^ƒCƒ~ƒ“ƒO‰ñ˜H
 	/**
-	 * é€£å°„ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã®è¨­å®šã€‚
-	 * 1=50msã€20=1000ms=1sã€‚
+	 * ˜AËƒ^ƒCƒ~ƒ“ƒO‚Ìİ’èB
+	 * 1=50msA20=1000ms=1sB
 	 */
 	public byte getCycleCount(ItemStack pItemstack) {
 		return (byte)1;
@@ -282,7 +282,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	}
 
 	/**
-	 * ç™ºå°„ã‚¿ã‚¤ãƒŸãƒ³ã‚°ã®ç¢ºèª
+	 * ”­Ëƒ^ƒCƒ~ƒ“ƒO‚ÌŠm”F
 	 */
 	public boolean cycleBolt(ItemStack pItemstack) {
 		checkTags(pItemstack);
@@ -304,7 +304,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	}
 
 	public boolean checkTags(ItemStack pitemstack) {
-		// NBTTagã®åˆæœŸåŒ–
+		// NBTTag‚Ì‰Šú‰»
 		if (pitemstack.hasTagCompound()) {
 			return true;
 		}
@@ -316,7 +316,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	}
 
 	public static Entity checkMaid(Entity entity) {
-		// ãƒ¡ã‚¤ãƒ‰ã•ã‚“ãƒã‚§ãƒƒã‚¯
+		// ƒƒCƒh‚³‚ñƒ`ƒFƒbƒN
 		try {
 			Field field = entity.getClass().getField("maidAvatar");
 			entity = (Entity)field.get(entity);

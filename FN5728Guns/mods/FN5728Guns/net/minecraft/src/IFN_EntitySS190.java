@@ -1,4 +1,4 @@
-ï»¿package net.minecraft.src;
+package net.minecraft.src;
 
 import java.beans.FeatureDescriptor;
 import java.lang.reflect.Field;
@@ -12,17 +12,17 @@ public class IFN_EntitySS190 extends EntityThrowable {
 	protected int inTile;
 	protected int ticksInGround;
 	protected int ticksInAir;
-	private double damage;	// ãƒ€ãƒ¡ãƒ¼ã‚¸å€ç‡
-	private int knockbackStrength;		// ãƒãƒƒã‚¯ãƒãƒƒã‚¯
+	private double damage;	// ƒ_ƒ[ƒW”{—¦
+	private int knockbackStrength;		// ƒmƒbƒNƒoƒbƒN
 	public EntityLiving thrower;
 	public boolean isInfinity;
 	public static boolean isTracer = false;
 
 
 	public static EntityLiving getAvatar(EntityLiving pEntity){
-		// TODO:littleMaidç”¨ã‚³ãƒ¼ãƒ‰ã“ã“ã‹ã‚‰
+		// TODO:littleMaid—pƒR[ƒh‚±‚±‚©‚ç
 		try {
-			// å°„æ‰‹ã®æƒ…å ±ã‚’EntityLittleMaidAvatarã‹ã‚‰EntityLittleMaidã¸ç½®ãæ›ãˆã‚‹
+			// Ëè‚Ìî•ñ‚ğEntityLittleMaidAvatar‚©‚çEntityLittleMaid‚Ö’u‚«Š·‚¦‚é
 			Field field = pEntity.getClass().getField("avatar");
 			pEntity = (EntityLiving)field.get(pEntity);
 		}
@@ -30,7 +30,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		}
 		catch (Exception e) {
 		}
-		// ã“ã“ã¾ã§
+		// ‚±‚±‚Ü‚Å
 		return pEntity;
 	}
 	
@@ -45,7 +45,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		yOffset = 0.0F;
 		damage = 2D;
 		knockbackStrength = 0;
-		// å¼¾é“ã‚’å®‰å®šã•ã›ã‚‹ãŸã‚ã«è€ç«å±æ€§ã‚’ä»˜ä¸
+		// ’e“¹‚ğˆÀ’è‚³‚¹‚é‚½‚ß‚É‘Ï‰Î‘®«‚ğ•t—^
 		isImmuneToFire = !worldObj.isRemote;
 		isInfinity = false;
 	}
@@ -71,8 +71,8 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		} catch (Exception e) {
 		}
 		
-		// f:ã¶ã‚Œ
-		// speed:å¼¾é€Ÿ
+		// f:‚Ô‚ê
+		// speed:’e‘¬
 		setLocationAndAngles(entityliving.posX, entityliving.posY + (double)entityliving.getEyeHeight(), entityliving.posZ, entityliving.rotationYaw, entityliving.rotationPitch);
 		posX -= MathHelper.cos((rotationYaw / 180F) * 3.141593F) * 0.16F;
 		posY -= 0.10000000149011612D;
@@ -93,21 +93,21 @@ public class IFN_EntitySS190 extends EntityThrowable {
 
 	@Override
 	protected float func_70182_d() {
-		// å¼¾é€Ÿã€æ„å‘³ãªã—
+		// ’e‘¬AˆÓ–¡‚È‚µ
 		return 35.8F;
 	}
 	
 	@Override
 	public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9) {
-		// å¤‰ãªå‡¦ç†ãŒã¤ã„ã¦ã‚‹ã®ã§ä¸Šæ›¸ã
+		// •Ï‚Èˆ—‚ª‚Â‚¢‚Ä‚é‚Ì‚Åã‘‚«
 		this.setPosition(par1, par3, par5);
 		this.setRotation(par7, par8);
 	}
 	
 	@Override
 	public void setVelocity(double par1, double par3, double par5) {
-		// å¼¾é€ŸãŒæ—©éãã‚‹ã¨ãƒ‘ã‚±ãƒƒãƒˆã®æ–¹ã§é€Ÿåº¦åˆ¶é™ãŒã‹ã‹ã£ã¦ã„ã‚‹ãŸã‚å¼¾é“ãŒå®‰å®šã—ãªããªã‚‹ã€‚
-		// åŸºæœ¬çš„ã«Velocityã®ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆãŒç„¡ã‘ã‚Œã°å•é¡Œãªã„ãŒã€ç‡ƒãˆã¦ã„ã‚‹ã¨ãŠã‹ã—ããªã‚‹ã€‚
+		// ’e‘¬‚ª‘‰ß‚¬‚é‚ÆƒpƒPƒbƒg‚Ì•û‚Å‘¬“x§ŒÀ‚ª‚©‚©‚Á‚Ä‚¢‚é‚½‚ß’e“¹‚ªˆÀ’è‚µ‚È‚­‚È‚éB
+		// Šî–{“I‚ÉVelocity‚ÌƒAƒbƒvƒf[ƒg‚ª–³‚¯‚ê‚Î–â‘è‚È‚¢‚ªA”R‚¦‚Ä‚¢‚é‚Æ‚¨‚©‚µ‚­‚È‚éB
 		this.motionX = par1;
 		this.motionY = par3;
 		this.motionZ = par5;
@@ -125,7 +125,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 
 	@Override
 	public void setFire(int par1) {
-		// è€ç«å±æ€§ãŒã¤ã„ã¦ã„ã‚‹ã¨ãã¯æ™‚é–“ã‚’4å€
+		// ‘Ï‰Î‘®«‚ª‚Â‚¢‚Ä‚¢‚é‚Æ‚«‚ÍŠÔ‚ğ4”{
 		super.setFire(isImmuneToFire ? par1 * 4 : par1);
 	}
 	
@@ -176,7 +176,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		Vec3 vec3d1;
 		MovingObjectPosition movingobjectposition;
 		while (true) {
-			// ç‰¹å®šç‰©ã¨å½“ãŸã£ãŸå ´åˆã®å‡¦ç†
+			// “Á’è•¨‚Æ“–‚½‚Á‚½ê‡‚Ìˆ—
 			vec3d = Vec3.createVectorHelper(posX, posY, posZ);
 			vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
 			movingobjectposition = worldObj.rayTraceBlocks_do_do(vec3d, vec3d1, false, true);
@@ -185,7 +185,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 			yTile = movingobjectposition.blockY;
 			zTile = movingobjectposition.blockZ;
 			int bid = worldObj.getBlockId(xTile, yTile, zTile);
-			// çª“ã‚¬ãƒ©ã‚¹ã€é‰¢æ¤ã®ç ´å£Š
+			// ‘‹ƒKƒ‰ƒXA”«A‚Ì”j‰ó
 			if (bid == Block.thinGlass.blockID || bid == Block.flowerPot.blockID) {
 				motionX *= 0.8;
 				motionY *= 0.8;
@@ -267,7 +267,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 	@Override
 	protected void onImpact(MovingObjectPosition movingobjectposition) {
 		if (movingobjectposition.entityHit != null) {
-			// ãƒ€ãƒ¡ãƒ¼ã‚¸ã®è·é›¢æ¸›è¡°ã‚’ä»˜ã‘ãŸ
+			// ƒ_ƒ[ƒW‚Ì‹——£Œ¸Š‚ğ•t‚¯‚½
 			float f1 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
 			int j1 = (int)Math.ceil((double)f1 * damage / 10D);
 //            System.out.println(String.format("ss190 - %d", j1));
@@ -275,24 +275,24 @@ public class IFN_EntitySS190 extends EntityThrowable {
 				movingobjectposition.entityHit.setFire(5);
 			}
 			if (mod_IFN_FN5728Guns.isArmorPiercing) {
-				// ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¢ãƒ¼ãƒãƒ¼ç„¡è¦–
+				// ƒX[ƒp[ƒA[ƒ}[–³‹
 				movingobjectposition.entityHit.hurtResistantTime = 0;
 			}
 			if (thrower instanceof EntityPlayer) {
-				// RSHUDå¯¾ç­–ãƒ»å½“ãŸã‚Šåˆ¤å®š
+				// RSHUD‘ÎôE“–‚½‚è”»’è
 				((EntityPlayer)thrower).addStat(StatList.damageDealtStat, j1);
 			}
 			if(movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, thrower), j1)) {
-				// ãƒ€ãƒ¡ãƒ¼ã‚¸ãŒé€šã£ãŸ
+				// ƒ_ƒ[ƒW‚ª’Ê‚Á‚½
 				if (movingobjectposition.entityHit instanceof EntityLiving)
 				{
 					EntityLiving lel = (EntityLiving)movingobjectposition.entityHit;
 					
-					// TODO:ä»Šã®ã¨ã“ã‚æ„å‘³ä¸æ˜
+					// TODO:¡‚Ì‚Æ‚±‚ëˆÓ–¡•s–¾
 					if (!this.worldObj.isRemote) {
 						lel.setArrowCountInEntity(lel.getArrowCountInEntity() + 1);
 					}
-					// ãƒãƒƒã‚¯ãƒãƒƒã‚¯
+					// ƒmƒbƒNƒoƒbƒN
 					if (knockbackStrength > 0)
 					{
 						float f7 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
@@ -303,7 +303,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 					}
 					EnchantmentThorns.func_92096_a(this.thrower, lel, this.rand);
 					
-					// TODO:ã‚¤ãƒ³ãƒ•ã‚£ã§ãªã‘ã‚Œã°çµŒé¨“å€¤ã‚’å‡ºã™ã‚ˆã†ã«ã™ã‚‹ã€‚
+					// TODO:ƒCƒ“ƒtƒB‚Å‚È‚¯‚ê‚ÎŒoŒ±’l‚ğo‚·‚æ‚¤‚É‚·‚éB
 					if (isInfinity) {
 						lel.recentlyHit = 0;
 					}
@@ -318,7 +318,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 			posZ += motionZ * d1;
 			setDead();
 		} else {
-			// ãƒ–ãƒ­ãƒƒã‚¯ã«ã‚ãŸã£ãŸ
+			// ƒuƒƒbƒN‚É‚ ‚½‚Á‚½
 			xTile = movingobjectposition.blockX;
 			yTile = movingobjectposition.blockY;
 			zTile = movingobjectposition.blockZ;
@@ -335,12 +335,12 @@ public class IFN_EntitySS190 extends EntityThrowable {
 			posY += motionY;
 			posZ += motionZ;
 			inGround = true;
-			// ç‡ƒãˆã¦ã‚‹ã¨ãã®å…‰æºåˆ¤å®š
+			// ”R‚¦‚Ä‚é‚Æ‚«‚ÌŒõŒ¹”»’è
 			if (!worldObj.isRemote) {
 				worldObj.playSoundAtEntity(this, "FN5728.bullethitBlock", 1.0F, rand.nextFloat() * 0.2F + 0.9F);
 				
 				if (Block.blocksList[inTile] instanceof BlockTNT) {
-					// TNTã‚’èµ·çˆ†
+					// TNT‚ğ‹N”š
 					Block.tnt.onBlockDestroyedByExplosion(worldObj, xTile, yTile, zTile);
 					worldObj.setBlockWithNotify(xTile, yTile, zTile, 0);
 				}
@@ -357,7 +357,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 	@Override
 	public void setDead() {
 		super.setDead();
-		// ç‡ƒãˆã¦ã‚‹ã¨ãã®å…‰æºåˆ¤å®š
+		// ”R‚¦‚Ä‚é‚Æ‚«‚ÌŒõŒ¹”»’è
 		worldObj.setLightValue(EnumSkyBlock.Block, xTile, yTile, zTile, 0x00);
 		worldObj.updateAllLightTypes(xTile - 1, yTile, zTile);
 		worldObj.updateAllLightTypes(xTile + 1, yTile, zTile);
@@ -407,7 +407,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 	}
 
 
-	// ç‹¬è‡ª
+	// “Æ©
 	public void onBlockDestroyed(int blockX, int blockY, int blockZ) {
 		int bid = worldObj.getBlockId(blockX, blockY, blockZ);
 		int bmd = worldObj.getBlockMetadata(blockX, blockY, blockZ);
