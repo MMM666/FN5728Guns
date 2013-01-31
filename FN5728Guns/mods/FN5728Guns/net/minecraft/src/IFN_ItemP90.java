@@ -13,32 +13,40 @@ public class IFN_ItemP90 extends IFN_ItemFN5728 {
 
 	@Override
 	public void onUpdate(ItemStack itemstack, World world, Entity entity, int i, boolean flag) {
-		boolean lflag = cycleBolt(itemstack);
-		entity = checkMaid(entity);
-		
-		if (entity != null && entity instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer)entity;
-			if (entityplayer.isUsingItem() && itemstack == entityplayer.getCurrentEquippedItem()) {
-//			if (itemstack != null && entityplayer.getItemInUse() == itemstack) {
-				if (lflag && !isReload(itemstack)) {
-					// î≠éÀ
-					if (itemstack.getItemDamage() < getMaxDamage()) {
+		if (!isReload(itemstack)) {
+			// ÉäÉçÅ[ÉhÇµÇƒÇ»Ç¢éûÇÃÇ›ìÆçÏ
+			boolean lflag = cycleBolt(itemstack);
+			entity = checkMaid(entity);
+			
+			if (entity != null && entity instanceof EntityPlayer) {
+				EntityPlayer entityplayer = (EntityPlayer)entity;
+				if (entityplayer.isUsingItem() && itemstack == entityplayer.getCurrentEquippedItem()) {
+					// éÀåÇíÜÇ»ÇÁé¿çs
+					if (lflag && !isReload(itemstack)) {
 						// î≠éÀ
-//						if (fireBullet(itemstack, world, entityplayer, 0F, itemRand.nextFloat() * -0.3F, 13.8F)) {
-						if (fireBullet(itemstack, world, entityplayer, 0F, itemRand.nextFloat() * -0.3F, 35.8F)) {
-							itemstack.damageItem(1, entityplayer);
+						int lj = getReload(itemstack);
+						mod_IFN_FN5728Guns.Debug(String.format("P90-FireWorks-remort:%b, vol:%04x", world.isRemote, lj));
+						int li = getMaxDamage() - itemstack.getItemDamage();
+						if (li > 0) {
+							// î≠éÀ
+							fireBullet(itemstack, world, entityplayer, 0F, 1.0F, 0.1F);
+							resetBolt(itemstack);
+							if (li > 1) {
+								MMM_Helper.updateCheckinghSlot(entityplayer, itemstack);
+							}
+						} else {
+							// íeêÿÇÍ
+							if (canReload(itemstack, entityplayer)) {
+								entityplayer.stopUsingItem();
+							}
 						}
-						resetBolt(itemstack);
 					} else {
-						// íeêÿÇÍ
-						if (canReload(itemstack, entityplayer)) {
-							entityplayer.stopUsingItem();
-						}
+						MMM_Helper.updateCheckinghSlot(entityplayer, itemstack);
 					}
 				}
-				MMM_Helper.updateCheckinghSlot(entityplayer, itemstack);
 			}
 		}
+		
 		super.onUpdate(itemstack, world, entity, i, flag);
 	}
 

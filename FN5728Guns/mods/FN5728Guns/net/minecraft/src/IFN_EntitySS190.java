@@ -33,7 +33,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		// ここまで
 		return pEntity;
 	}
-	
+
 	@Override
 	protected void entityInit() {
 		xTile = -1;
@@ -64,7 +64,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		this(world, entityliving, f, 35.8F);
 	}
 
-	public IFN_EntitySS190(World world, EntityLiving entityliving, float f, float speed) {
+	public IFN_EntitySS190(World world, EntityLiving entityliving, float f, float speedRate) {
 		super(world, getAvatar(entityliving));
 		try {
 			thrower = (EntityLiving)ModLoader.getPrivateValue(EntityThrowable.class, this, 6);//entityliving;
@@ -82,7 +82,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		motionX = -MathHelper.sin((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F) * 3.141593F) * f1;
 		motionZ = MathHelper.cos((rotationYaw / 180F) * 3.141593F) * MathHelper.cos((rotationPitch / 180F) * 3.141593F) * f1;
 		motionY = -MathHelper.sin(((rotationPitch + func_70183_g()) / 180F) * 3.141593F) * f1;
-		setThrowableHeading(motionX, motionY, motionZ, speed, f);
+		setThrowableHeading(motionX, motionY, motionZ, func_70182_d() * speedRate, f);
 	}
 
 	@Override
@@ -96,14 +96,14 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		// 弾速、意味なし
 		return 35.8F;
 	}
-	
+
 	@Override
 	public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9) {
 		// 変な処理がついてるので上書き
 		this.setPosition(par1, par3, par5);
 		this.setRotation(par7, par8);
 	}
-	
+
 	@Override
 	public void setVelocity(double par1, double par3, double par5) {
 		// 弾速が早過ぎるとパケットの方で速度制限がかかっているため弾道が安定しなくなる。
@@ -158,7 +158,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 				}
 				
 				if (isBurning() && (ticksInGround == 1)) {
-//					System.out.println("light");
+//					mod_IFN_FN5728Guns.Debug("light");
 					worldObj.setLightValue(EnumSkyBlock.Block, xTile, yTile, zTile, 0xff);
 					worldObj.updateAllLightTypes(xTile - 1, yTile, zTile);
 					worldObj.updateAllLightTypes(xTile + 1, yTile, zTile);
@@ -202,36 +202,33 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		if(movingobjectposition != null) {
 			vec3d1 = Vec3.createVectorHelper(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
 		}
-		if(!worldObj.isRemote) {
+		if (!worldObj.isRemote) {
 			Entity entity = null;
 			List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
 			double d = 0.0D;
 			for(int k = 0; k < list.size(); k++) {
 				Entity entity1 = (Entity)list.get(k);
-				if(!entity1.canBeCollidedWith() || entity1 == thrower && ticksInAir < 5)
-				{
+				if (!entity1.canBeCollidedWith() || entity1 == thrower && ticksInAir < 5) {
 					continue;
 				}
 				float f4 = 0.3F;
 				AxisAlignedBB axisalignedbb = entity1.boundingBox.expand(f4, f4, f4);
 				MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3d, vec3d1);
-				if(movingobjectposition1 == null)
-				{
+				if (movingobjectposition1 == null) {
 					continue;
 				}
 				double d1 = vec3d.distanceTo(movingobjectposition1.hitVec);
-				if(d1 < d || d == 0.0D)
-				{
+				if (d1 < d || d == 0.0D) {
 					entity = entity1;
 					d = d1;
 				}
 			}
 			
-			if(entity != null) {
+			if (entity != null) {
 				movingobjectposition = new MovingObjectPosition(entity);
 			}
 		}
-		if(movingobjectposition != null) {
+		if (movingobjectposition != null) {
 			onImpact(movingobjectposition);
 		}
 		posX += motionX;
@@ -239,22 +236,19 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		posZ += motionZ;
 		float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 		rotationYaw = (float)((Math.atan2(motionX, motionZ) * 180D) / 3.1415927410125732D);
-		for(rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F) { }
-		for(; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F) { }
-		for(; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F) { }
-		for(; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F) { }
+		for (rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / 3.1415927410125732D); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F) { }
+		for (; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F) { }
+		for (; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F) { }
+		for (; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F) { }
 		rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
 		rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
 		float f1 = 0.99F;
 		float f2 = getGravityVelocity();
-		if(isInWater())
-		{
-			for(int j = 0; j < 4; j++)
-			{
+		if (isInWater()) {
+			for(int j = 0; j < 4; j++) {
 				float f3 = 0.25F;
 				worldObj.spawnParticle("bubble", posX - motionX * (double)f3, posY - motionY * (double)f3, posZ - motionZ * (double)f3, motionX, motionY, motionZ);
 			}
-			
 			f1 = 0.8F;
 		}
 		motionX *= f1;
@@ -270,7 +264,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 			// ダメージの距離減衰を付けた
 			float f1 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
 			int j1 = (int)Math.ceil((double)f1 * damage / 10D);
-//            System.out.println(String.format("ss190 - %d", j1));
+//			mod_IFN_FN5728Guns.Debug(String.format("ss190 - %d", j1));
 			if (isBurning()) {
 				movingobjectposition.entityHit.setFire(5);
 			}
@@ -288,13 +282,12 @@ public class IFN_EntitySS190 extends EntityThrowable {
 				{
 					EntityLiving lel = (EntityLiving)movingobjectposition.entityHit;
 					
-					// TODO:今のところ意味不明
-					if (!this.worldObj.isRemote) {
-						lel.setArrowCountInEntity(lel.getArrowCountInEntity() + 1);
-					}
+					// TODO:多分刺さっている矢の数
+//					if (!this.worldObj.isRemote) {
+//						lel.setArrowCountInEntity(lel.getArrowCountInEntity() + 1);
+//					}
 					// ノックバック
-					if (knockbackStrength > 0)
-					{
+					if (knockbackStrength > 0) {
 						float f7 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
 						if (f7 > 0.0F)
 						{

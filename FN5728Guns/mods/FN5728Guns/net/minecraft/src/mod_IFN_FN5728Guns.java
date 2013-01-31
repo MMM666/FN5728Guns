@@ -19,6 +19,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 	@MLProp()
 	public static boolean UnlimitedInfinity = false;
 	
+	public static boolean isDebugMessage = false;
 	
 	public static Item fn_fiveseven;
 	public static Item fn_p90;
@@ -27,9 +28,15 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 	public static Class classSS190;
 
 
+	public static void Debug(String pMes) {
+		if (isDebugMessage) {
+			System.out.println(pMes);
+		}
+	}
+
 	@Override
 	public String getVersion() {
-		return "1.4.7-1";
+		return "1.4.7-2";
 	}
 
 	@Override
@@ -41,16 +48,15 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 	public String getPriorities() {
 		return "required-after:mod_MMM_MMMLib";
 	}
-	
 
 	@Override
 	public void load() {
 		int icon;
-
+		
 		if (ID_SS190 < 0) return; 
 		// 5.7x28mm SS190
 		icon = MMM_Helper.isForge ? 2 : ModLoader.addOverride("/gui/items.png", "/icon/SS190.png");
-		fn_SS190 = new Item(ID_SS190 - 256).setIconIndex(icon).setItemName("ss190").setCreativeTab(CreativeTabs.tabCombat);
+		fn_SS190 = new IFN_ItemSS190(ID_SS190 - 256).setIconIndex(icon).setItemName("ss190");
 		ModLoader.addName(fn_SS190, "5.7x28mm SS190");
 		ModLoader.addRecipe(new ItemStack(fn_SS190, 16), new Object[] {
 			"i", "g", "g",  
@@ -137,9 +143,15 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 		ItemStack lis = lplayer.getCurrentEquippedItem();
 		if (lis != null && lis.getItem() instanceof IFN_ItemFN5728) {
 			IFN_ItemFN5728 lifn = (IFN_ItemFN5728)lis.getItem();
-//			System.out.println(String.format("reciveIFN:%s:%d", packet.channel, (packet.data[0] << 8) | packet.data[1]));
-			lifn.setReload(lis, (packet.data[0] << 8) | packet.data[1]);
-			MMM_Helper.updateCheckinghSlot(lplayer, lis);
+			Debug(String.format("reciveIFN:%s:%04x", packet.channel, (packet.data[0] << 8) | packet.data[1]));
+			if (lifn.isReload(lis)) {
+				Debug(String.format("reloadNow."));
+			} else {
+				Debug(String.format("setReload."));
+				lifn.setReload(lis, (packet.data[0] << 8) | packet.data[1]);
+				lplayer.clearItemInUse();
+			}
+//			MMM_Helper.updateCheckinghSlot(lplayer, lis);
 		}
 	}
 
