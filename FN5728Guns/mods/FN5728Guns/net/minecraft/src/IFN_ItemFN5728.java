@@ -368,17 +368,4 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 		return false;
 	}
 
-	public static Entity checkMaid(Entity entity) {
-		// メイドさんチェック
-		try {
-			Field field = entity.getClass().getField("maidAvatar");
-			entity = (Entity)field.get(entity);
-		}
-		catch (NoSuchFieldException e) {
-		}
-		catch (Exception e) {
-		}
-		return entity;
-	}
-
 }

@@ -16,7 +16,7 @@ public class IFN_ItemP90 extends IFN_ItemFN5728 {
 		if (!isReload(itemstack)) {
 			// ƒŠƒ[ƒh‚µ‚Ä‚È‚¢‚Ì‚İ“®ì
 			boolean lflag = cycleBolt(itemstack);
-			entity = checkMaid(entity);
+			entity = MMM_Helper.getAvatarPlayer(entity);
 			
 			if (entity != null && entity instanceof EntityPlayer) {
 				EntityPlayer entityplayer = (EntityPlayer)entity;

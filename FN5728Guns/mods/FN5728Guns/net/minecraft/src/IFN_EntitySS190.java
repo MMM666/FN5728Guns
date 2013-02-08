@@ -19,21 +19,6 @@ public class IFN_EntitySS190 extends EntityThrowable {
 	public static boolean isTracer = false;
 
 
-	public static EntityLiving getAvatar(EntityLiving pEntity){
-		// TODO:littleMaid用コードここから
-		try {
-			// 射手の情報をEntityLittleMaidAvatarからEntityLittleMaidへ置き換える
-			Field field = pEntity.getClass().getField("avatar");
-			pEntity = (EntityLiving)field.get(pEntity);
-		}
-		catch (NoSuchFieldException e) {
-		}
-		catch (Exception e) {
-		}
-		// ここまで
-		return pEntity;
-	}
-
 	@Override
 	protected void entityInit() {
 		xTile = -1;
@@ -65,7 +50,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 	}
 
 	public IFN_EntitySS190(World world, EntityLiving entityliving, float f, float speedRate) {
-		super(world, getAvatar(entityliving));
+		super(world, (EntityLiving)MMM_Helper.getAvatarEntity(entityliving));
 		try {
 			thrower = (EntityLiving)ModLoader.getPrivateValue(EntityThrowable.class, this, 6);//entityliving;
 		} catch (Exception e) {
