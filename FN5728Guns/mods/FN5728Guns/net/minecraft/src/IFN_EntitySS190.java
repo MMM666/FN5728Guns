@@ -319,8 +319,9 @@ public class IFN_EntitySS190 extends EntityThrowable {
 				
 				if (Block.blocksList[inTile] instanceof BlockTNT) {
 					// TNT‚ð‹N”š
-					Block.tnt.onBlockDestroyedByExplosion(worldObj, xTile, yTile, zTile);
-					worldObj.setBlockWithNotify(xTile, yTile, zTile, 0);
+					Block.blocksList[inTile].onBlockDestroyedByExplosion(worldObj, xTile, yTile, zTile, new Explosion(worldObj, thrower, xTile, yTile, zTile, 0.0F));
+//					((BlockTNT)Block.blocksList[inTile]).func_94391_a(worldObj, xTile, yTile, zTile, 1, thrower);
+					worldObj.setBlockAndMetadataWithNotify(xTile, yTile, zTile, 0, 0, 2);
 				}
 			}
 		}
@@ -394,7 +395,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 			return;
 		}
 		worldObj.playAuxSFX(2001, blockX, blockY, blockZ, bid + (bmd  << 12));
-		boolean flag = worldObj.setBlockWithNotify(blockX, blockY, blockZ, 0);
+		boolean flag = worldObj.setBlockAndMetadataWithNotify(blockX, blockY, blockZ, 0, 0, 2);
 		if (block != null && flag) {
 			block.onBlockDestroyedByPlayer(worldObj, blockX, blockY, blockZ, bmd);
 		}

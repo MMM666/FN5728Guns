@@ -30,11 +30,12 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	}
 
 	@Override
-	public ItemStack onFoodEaten(ItemStack itemstack, World world, EntityPlayer entityplayer) {
+	public ItemStack onEaten(ItemStack par1ItemStack, World par2World,
+			EntityPlayer par3EntityPlayer) {
 		// ÉäÉçÅ[ÉhäÆóπ
-		mod_IFN_FN5728Guns.Debug(String.format("onFoodEaten-remort:%b", world.isRemote));
-		reloadMagazin(itemstack, world, entityplayer);
-		return itemstack;
+		mod_IFN_FN5728Guns.Debug(String.format("onFoodEaten-remort:%b", par2World.isRemote));
+		reloadMagazin(par1ItemStack, par2World, par3EntityPlayer);
+		return par1ItemStack;
 	}
 	
 	@Override
