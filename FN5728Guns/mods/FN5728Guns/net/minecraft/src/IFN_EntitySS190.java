@@ -87,6 +87,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		// 変な処理がついてるので上書き
 		this.setPosition(par1, par3, par5);
 		this.setRotation(par7, par8);
+		mod_IFN_FN5728Guns.Debug(String.format("move:%f, %f, %f", par1, par3, par5));
 	}
 
 	@Override
@@ -101,8 +102,6 @@ public class IFN_EntitySS190 extends EntityThrowable {
 			float var7 = MathHelper.sqrt_double(par1 * par1 + par5 * par5);
 			this.prevRotationYaw = this.rotationYaw = (float)(Math.atan2(par1, par5) * 180.0D / Math.PI);
 			this.prevRotationPitch = this.rotationPitch = (float)(Math.atan2(par3, (double)var7) * 180.0D / Math.PI);
-			this.prevRotationPitch = this.rotationPitch;
-			this.prevRotationYaw = this.rotationYaw;
 			this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
 			this.ticksInGround = 0;
 		}
@@ -114,6 +113,10 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		super.setFire(isImmuneToFire ? par1 * 4 : par1);
 	}
 	
+	protected boolean canTriggerWalking() {
+		return false;
+	}
+
 
 	@Override
 	public void onUpdate() {
@@ -122,20 +125,17 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		lastTickPosZ = posZ;
 //        super.onUpdate();
 		super.onEntityUpdate();
-//		if(throwableShake > 0)
-//		{
-//			throwableShake--;
-//		}
+		if (throwableShake > 0) {
+			throwableShake--;
+		}
 		if(inGround) {
 			if (thrower == null) {
 				setDead();
-				return;
 			}
 			
 			int i = worldObj.getBlockId(xTile, yTile, zTile);
 			if(i != inTile) {
 				setDead();
-				return;
 			} else {
 				ticksInGround++;
 				if(ticksInGround == 1200) {
@@ -143,6 +143,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 				}
 				
 				if (isBurning() && (ticksInGround == 1)) {
+					// 燃えてるときの光源判定
 //					mod_IFN_FN5728Guns.Debug("light");
 					worldObj.setLightValue(EnumSkyBlock.Block, xTile, yTile, zTile, 0xff);
 					worldObj.updateAllLightTypes(xTile - 1, yTile, zTile);
@@ -152,69 +153,67 @@ public class IFN_EntitySS190 extends EntityThrowable {
 					worldObj.updateAllLightTypes(xTile, yTile, zTile - 1);
 					worldObj.updateAllLightTypes(xTile, yTile, zTile + 1);
 				}
-				return;
 			}
+			return;
 		} else {
 			ticksInAir++;
 		}
-		Vec3 vec3d;
-		Vec3 vec3d1;
-		MovingObjectPosition movingobjectposition;
-		while (true) {
-			// 特定物と当たった場合の処理
-			vec3d = Vec3.createVectorHelper(posX, posY, posZ);
-			vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
-			movingobjectposition = worldObj.rayTraceBlocks_do_do(vec3d, vec3d1, false, true);
-			if (movingobjectposition == null) break;
-			xTile = movingobjectposition.blockX;
-			yTile = movingobjectposition.blockY;
-			zTile = movingobjectposition.blockZ;
-			int bid = worldObj.getBlockId(xTile, yTile, zTile);
-			// 窓ガラス、鉢植の破壊
-			if (bid == Block.thinGlass.blockID || bid == Block.flowerPot.blockID) {
-				motionX *= 0.8;
-				motionY *= 0.8;
-				motionZ *= 0.8;
-				
-				onBlockDestroyed(xTile, yTile, zTile);
-			} else {
-				break;
-			}
-		}
 		
-		vec3d = Vec3.createVectorHelper(posX, posY, posZ);
-		vec3d1 = Vec3.createVectorHelper(posX + motionX, posY + motionY, posZ + motionZ);
-		if(movingobjectposition != null) {
-			vec3d1 = Vec3.createVectorHelper(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
-		}
-		if (!worldObj.isRemote) {
-			Entity entity = null;
-			List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
-			double d = 0.0D;
-			for(int k = 0; k < list.size(); k++) {
-				Entity entity1 = (Entity)list.get(k);
+		Vec3 lvo;
+		Vec3 lvt;
+		Vec3 lvh = null;
+		MovingObjectPosition lmop;
+		MovingObjectPosition lmop1;
+		
+		while (true) {
+			// 最初に当たるブロックの判定
+			lvo = worldObj.getWorldVec3Pool().getVecFromPool(posX, posY, posZ);
+			lvt = worldObj.getWorldVec3Pool().getVecFromPool(posX + motionX, posY + motionY, posZ + motionZ);
+			lmop = worldObj.rayTraceBlocks_do_do(lvo, lvt, false, true);
+			lvo = worldObj.getWorldVec3Pool().getVecFromPool(posX, posY, posZ);
+			if (lmop == null) {
+				lvt = worldObj.getWorldVec3Pool().getVecFromPool(posX + motionX, posY + motionY, posZ + motionZ);
+			} else {
+				lvt = worldObj.getWorldVec3Pool().getVecFromPool(lmop.hitVec.xCoord, lmop.hitVec.yCoord, lmop.hitVec.zCoord);
+			}
+			// Entityに対する当り判定
+			// オブジェクト破壊のためにサーバー、クライアント両方で判定。
+			Entity lentity = null;
+			List llist = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.addCoord(motionX, motionY, motionZ).expand(1.0D, 1.0D, 1.0D));
+			double llmax = Double.MAX_VALUE;
+			float lda = 0.3F;
+			for(int k = 0; k < llist.size(); k++) {
+				Entity entity1 = (Entity)llist.get(k);
 				if (!entity1.canBeCollidedWith() || entity1 == thrower && ticksInAir < 5) {
 					continue;
 				}
-				float f4 = 0.3F;
-				AxisAlignedBB axisalignedbb = entity1.boundingBox.expand(f4, f4, f4);
-				MovingObjectPosition movingobjectposition1 = axisalignedbb.calculateIntercept(vec3d, vec3d1);
-				if (movingobjectposition1 == null) {
-					continue;
-				}
-				double d1 = vec3d.distanceTo(movingobjectposition1.hitVec);
-				if (d1 < d || d == 0.0D) {
-					entity = entity1;
-					d = d1;
+				AxisAlignedBB laabb = entity1.boundingBox.expand(lda, lda, lda);
+				lmop1 = laabb.calculateIntercept(lvo, lvt);
+				if (lmop1 == null) continue;
+				double ld = lvo.distanceTo(lmop1.hitVec);
+				if (ld < llmax) {
+					lentity = entity1;
+					llmax = ld;
+					lvh = lmop1.hitVec;
 				}
 			}
-			
-			if (entity != null) {
-				movingobjectposition = new MovingObjectPosition(entity);
+			// 命中対象がある場合Entityを入れる。
+			if (lentity != null) {
+				lmop = new MovingObjectPosition(lentity);
+				lmop.hitVec = lvh;
 			}
-		}
-		if (movingobjectposition != null) {
-			onImpact(movingobjectposition);
+			if (lmop != null) {
+				if (lmop.typeOfHit == EnumMovingObjectType.TILE &&
+						worldObj.getBlockId(lmop.blockX, lmop.blockY, lmop.blockZ) == Block.portal.blockID) {
+					setInPortal();
+					break;
+				} else {
+					onImpact(lmop);
+					if (inGround) break;
+				}
+			} else {
+				break;
+			}
 		}
 		posX += motionX;
 		posY += motionY;
@@ -241,14 +240,15 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		motionZ *= f1;
 		motionY -= f2;
 		setPosition(posX, posY, posZ);
+		this.doBlockCollisions();
 	}
 
 	@Override
 	protected void onImpact(MovingObjectPosition movingobjectposition) {
 		if (movingobjectposition.entityHit != null) {
 			// ダメージの距離減衰を付けた
-			float f1 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
-			int j1 = (int)Math.ceil((double)f1 * damage / 10D);
+			float lfd = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
+			int ldam = (int)Math.ceil((double)lfd * damage / 10D);
 //			mod_IFN_FN5728Guns.Debug(String.format("ss190 - %d", j1));
 			if (isBurning()) {
 				movingobjectposition.entityHit.setFire(5);
@@ -259,27 +259,26 @@ public class IFN_EntitySS190 extends EntityThrowable {
 			}
 			if (thrower instanceof EntityPlayer) {
 				// RSHUD対策・当たり判定
-				((EntityPlayer)thrower).addStat(StatList.damageDealtStat, j1);
+				((EntityPlayer)thrower).addStat(StatList.damageDealtStat, ldam);
 			}
-			if(movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, thrower), j1)) {
+			if(movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, thrower), ldam)) {
 				// ダメージが通った
-				if (movingobjectposition.entityHit instanceof EntityLiving)
-				{
+				if (movingobjectposition.entityHit instanceof EntityLiving) {
 					EntityLiving lel = (EntityLiving)movingobjectposition.entityHit;
 					
-					// TODO:多分刺さっている矢の数
-//					if (!this.worldObj.isRemote) {
-//						lel.setArrowCountInEntity(lel.getArrowCountInEntity() + 1);
-//					}
 					// ノックバック
 					if (knockbackStrength > 0) {
-						float f7 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
-						if (f7 > 0.0F)
-						{
-							movingobjectposition.entityHit.addVelocity((motionX * (double)knockbackStrength * 0.60000002384185791D) / (double)f7, 0.10000000000000001D, (motionZ * (double)knockbackStrength * 0.60000002384185791D) / (double)f7);
+						if (lfd > 0.0F) {
+							lel.addVelocity(
+									(motionX * (double)knockbackStrength * 0.60000002384185791D) / (double)lfd,
+									(motionY * (double)knockbackStrength * 0.60000002384185791D) / (double)lfd + 0.1D,
+									(motionZ * (double)knockbackStrength * 0.60000002384185791D) / (double)lfd);
 						}
 					}
-					EnchantmentThorns.func_92096_a(this.thrower, lel, this.rand);
+					// 反射
+					if (thrower != null) {
+						EnchantmentThorns.func_92096_a(thrower, lel, this.rand);
+					}
 					
 					// TODO:インフィでなければ経験値を出すようにする。
 					if (isInfinity) {
@@ -287,13 +286,11 @@ public class IFN_EntitySS190 extends EntityThrowable {
 					}
 				}
 			}
-			worldObj.playSoundAtEntity(movingobjectposition.entityHit, "FN5728.bullethitEntity", 1.0F, rand.nextFloat() * 0.2F + 0.9F);
-			Vec3 vec3d = Vec3.createVectorHelper(posX, posY, posZ);
-			Vec3 vec3d2 = Vec3.createVectorHelper(motionX, motionY, motionZ);
-			double d1 = vec3d.distanceTo(movingobjectposition.hitVec) / vec3d2.lengthVector();
-			posX += motionX * d1;
-			posY += motionY * d1;
-			posZ += motionZ * d1;
+			movingobjectposition.entityHit.playSound("FN5728.bullethitEntity", 1.0F, rand.nextFloat() * 0.2F + 0.9F);
+			motionX = movingobjectposition.hitVec.xCoord - posX;
+			motionY = movingobjectposition.hitVec.yCoord - posY;
+			motionZ = movingobjectposition.hitVec.zCoord - posZ;
+			inGround = true;
 			setDead();
 		} else {
 			// ブロックにあたった
@@ -302,36 +299,41 @@ public class IFN_EntitySS190 extends EntityThrowable {
 			zTile = movingobjectposition.blockZ;
 			inTile = worldObj.getBlockId(xTile, yTile, zTile);
 //            inData = worldObj.getBlockMetadata(xTile, yTile, zTile);
-			motionX = (float)(movingobjectposition.hitVec.xCoord - posX);
-			motionY = (float)(movingobjectposition.hitVec.yCoord - posY);
-			motionZ = (float)(movingobjectposition.hitVec.zCoord - posZ);
-			float f2 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
-			posX -= (motionX / (double)f2) * 0.05000000074505806D;
-			posY -= (motionY / (double)f2) * 0.05000000074505806D;
-			posZ -= (motionZ / (double)f2) * 0.05000000074505806D;
-			posX += motionX;
-			posY += motionY;
-			posZ += motionZ;
-			inGround = true;
-			// 燃えてるときの光源判定
-			if (!worldObj.isRemote) {
-				worldObj.playSoundAtEntity(this, "FN5728.bullethitBlock", 1.0F, rand.nextFloat() * 0.2F + 0.9F);
+			// 窓ガラス、鉢植の破壊
+			if (inTile == Block.thinGlass.blockID || inTile == Block.flowerPot.blockID) {
+				motionX *= 0.8;
+				motionY *= 0.8;
+				motionZ *= 0.8;
 				
+				onBlockDestroyed(xTile, yTile, zTile);
+			} else {
 				if (Block.blocksList[inTile] instanceof BlockTNT) {
 					// TNTを起爆
 //					Block.blocksList[inTile].onBlockDestroyedByExplosion(worldObj, xTile, yTile, zTile, new Explosion(worldObj, thrower, xTile, yTile, zTile, 0.0F));
 					((BlockTNT)Block.blocksList[inTile]).func_94391_a(worldObj, xTile, yTile, zTile, 1, thrower);
 					worldObj.setBlockToAir(xTile, yTile, zTile);
+					setDead();
+				} else {
+				}
+				motionX = movingobjectposition.hitVec.xCoord - posX;
+				motionY = movingobjectposition.hitVec.yCoord - posY;
+				motionZ = movingobjectposition.hitVec.zCoord - posZ;
+				inGround = true;
+				if (!worldObj.isRemote) {
+					worldObj.playSoundAtEntity(this, "FN5728.bullethitBlock", 1.0F, rand.nextFloat() * 0.2F + 0.9F);
+					
 				}
 			}
 			mod_IFN_FN5728Guns.Debug(String.format("Block:%d, %d, %d", xTile, yTile, zTile));
 		}
-		for (int i = 0; i < 8; i++) {
-			worldObj.spawnParticle("snowballpoof", posX, posY, posZ, 0.0D, 0.0D, 0.0D);
+		if (inGround) {
+			for (int i = 0; i < 8; i++) {
+				worldObj.spawnParticle("snowballpoof",
+						movingobjectposition.hitVec.xCoord,
+						movingobjectposition.hitVec.yCoord,
+						movingobjectposition.hitVec.zCoord, 0.0D, 0.0D, 0.0D);
+			}
 		}
-		posX -= motionX;
-		posY -= motionY;
-		posZ -= motionZ;
 	}
 
 	@Override
