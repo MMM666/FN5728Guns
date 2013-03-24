@@ -20,13 +20,12 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 	public static boolean UnlimitedInfinity = false;
 	@MLProp
 	public static boolean isDebugMessage = false;
-	@MLProp(info="EntityID. 0 is auto assing.")
-	public static int uniqueEntityIDSS190 = 223;
 	
 	public static Item fn_fiveseven;
 	public static Item fn_p90;
 	public static Item fn_SS190;
 	public static Class classSS190;
+	public static int uniqueEntityIDSS190;
 
 
 	public static void Debug(String pMes) {
@@ -37,7 +36,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.5.0-1";
+		return "1.5.1-1";
 	}
 
 	@Override
@@ -52,8 +51,13 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 
 	@Override
 	public void load() {
+		uniqueEntityIDSS190 = MMM_Helper.getNextEntityID(false);
+		if (ID_SS190 < 0 || uniqueEntityIDSS190 == -1) return;
+		classSS190 = MMM_Helper.getForgeClass(this, "IFN_EntitySS190");
+		if (classSS190 == null) {
+			return;
+		}
 		
-		if (ID_SS190 < 0) return; 
 		// 5.7x28mm SS190
 		fn_SS190 = new IFN_ItemSS190(ID_SS190 - 256).setUnlocalizedName("SS190");
 		ModLoader.addName(fn_SS190, "5.7x28mm SS190");
@@ -62,12 +66,6 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 			Character.valueOf('i'), Item.ingotIron,
 			Character.valueOf('g'), Item.gunpowder
 		});
-		
-		uniqueEntityIDSS190 = uniqueEntityIDSS190 == 0 ? MMM_Helper.getNextEntityID() : uniqueEntityIDSS190;
-		classSS190 = MMM_Helper.getForgeClass(this, "IFN_EntitySS190");
-		if (classSS190 == null) {
-			return;
-		}
 		ModLoader.registerEntityID(classSS190, "SS190", uniqueEntityIDSS190);
 		// Modloader環境下ではfn_uniqueSS190が255以下でないとSpawnEntityが呼ばれない。
 		// 値を管理するのがめんどいのでスポーン判定は別で作る。

@@ -87,5 +87,4 @@ public class IFN_PacketSS190Spawn extends Packet23VehicleSpawn {
 		}
 	}
 
-
 }

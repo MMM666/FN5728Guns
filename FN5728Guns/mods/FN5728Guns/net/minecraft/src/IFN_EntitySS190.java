@@ -319,11 +319,12 @@ public class IFN_EntitySS190 extends EntityThrowable {
 				
 				if (Block.blocksList[inTile] instanceof BlockTNT) {
 					// TNT‚ð‹N”š
-					Block.blocksList[inTile].onBlockDestroyedByExplosion(worldObj, xTile, yTile, zTile, new Explosion(worldObj, thrower, xTile, yTile, zTile, 0.0F));
-//					((BlockTNT)Block.blocksList[inTile]).func_94391_a(worldObj, xTile, yTile, zTile, 1, thrower);
-					worldObj.setBlockAndMetadataWithNotify(xTile, yTile, zTile, 0, 0, 2);
+//					Block.blocksList[inTile].onBlockDestroyedByExplosion(worldObj, xTile, yTile, zTile, new Explosion(worldObj, thrower, xTile, yTile, zTile, 0.0F));
+					((BlockTNT)Block.blocksList[inTile]).func_94391_a(worldObj, xTile, yTile, zTile, 1, thrower);
+					worldObj.setBlockToAir(xTile, yTile, zTile);
 				}
 			}
+			mod_IFN_FN5728Guns.Debug(String.format("Block:%d, %d, %d", xTile, yTile, zTile));
 		}
 		for (int i = 0; i < 8; i++) {
 			worldObj.spawnParticle("snowballpoof", posX, posY, posZ, 0.0D, 0.0D, 0.0D);
@@ -395,7 +396,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 			return;
 		}
 		worldObj.playAuxSFX(2001, blockX, blockY, blockZ, bid + (bmd  << 12));
-		boolean flag = worldObj.setBlockAndMetadataWithNotify(blockX, blockY, blockZ, 0, 0, 2);
+		boolean flag = worldObj.setBlockToAir(blockX, blockY, blockZ);
 		if (block != null && flag) {
 			block.onBlockDestroyedByPlayer(worldObj, blockX, blockY, blockZ, bmd);
 		}
