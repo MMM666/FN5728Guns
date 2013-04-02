@@ -158,7 +158,9 @@ littleMaidMob対応射撃兵装サンプル。
 
 
 変更点
-	20130325.1	1.5.1 Rev1 バージョンアップ
+	20130403.1	1.5.1 Rev1 バージョンアップ
+				MC-12133により着弾後の弾が浮きます。
+				https://mojang.atlassian.net/browse/MC-12133
 
 
 
