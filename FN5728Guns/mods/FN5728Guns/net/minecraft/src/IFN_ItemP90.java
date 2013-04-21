@@ -22,7 +22,7 @@ public class IFN_ItemP90 extends IFN_ItemFN5728 {
 				EntityPlayer entityplayer = (EntityPlayer)entity;
 				if (entityplayer.isUsingItem() && itemstack == entityplayer.getCurrentEquippedItem()) {
 					// ËŒ‚’†‚È‚çÀs
-					if (lflag && !isReload(itemstack)) {
+					if (lflag) {
 						// ”­Ë
 						int lj = getReload(itemstack);
 						mod_IFN_FN5728Guns.Debug(String.format("P90-FireWorks-remort:%b, vol:%04x", world.isRemote, lj));

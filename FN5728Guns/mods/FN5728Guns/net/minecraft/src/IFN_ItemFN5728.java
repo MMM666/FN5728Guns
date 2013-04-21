@@ -16,8 +16,14 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	 * 0x2000	:マガジンリリース、下位24bitはリロード時の残弾
 	 * 0x8000	:リロード完了
 	 */
-	
-	
+	public static int IFNValFire		= 0x0000;
+	public static int IFNValReloadTac	= 0x0010;
+	public static int IFNValReloadStart	= 0x1000;
+	public static int IFNValReleaseMag	= 0x2000;
+	public static int IFNValReloadEnd	= 0x8000;
+
+
+
 	public IFN_ItemFN5728(int i) {
 		super(i);
 		setMaxDamage(0);
@@ -42,7 +48,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i) {
 		// リロード中止
 		mod_IFN_FN5728Guns.Debug(String.format("onPlayerStoppedUsing-remort:%b", world.isRemote));
-		cancelReload(itemstack, 0x8000);
+		cancelReload(itemstack, IFNValReloadEnd);
 	}
 	
 	@Override
@@ -50,7 +56,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 		// トリガー
 		int li = getReload(itemstack);
 		mod_IFN_FN5728Guns.Debug(String.format("onItemRightClick-remort:%b, val:%04x", world.isRemote, li));
-		if (li <= 0) {
+		if (li <= IFNValFire) {
 			if (canReload(itemstack, entityplayer)) {
 				// ノーマルリロード
 				if (isEmpty(itemstack)) {
@@ -60,7 +66,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 				}
 			}
 		}
-		if (li == 0x0010) {
+		if (li == IFNValReloadTac) {
 			if (canReload(itemstack, entityplayer)) {
 				// タクティカルリロード
 				mod_IFN_FN5728Guns.Debug(String.format("reloadTac-remort:%b", world.isRemote));
@@ -105,15 +111,15 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 					// クアライアント専用コードなのでForgeMPだとエラーが出る
 					// というか何でマルチ側でModloaderがよべるん・・・。
 					if (MMM_Helper.mc.gameSettings.keyBindAttack.pressed) {
-						if (li == 0x0000) {
+						if (li == IFNValFire) {
 							mod_IFN_FN5728Guns.Debug("tacticalIFN");
-							li = 0x0010;
+							li = IFNValReloadTac;
 							ModLoader.clientSendPacket(new Packet250CustomPayload("IFN", new byte[] {(byte)((li >>> 8) & 0xff), (byte)(li & 0xff)}));
 						}
 					} else {
-						if (li == 0x0010) {
+						if (li == IFNValReloadTac) {
 							mod_IFN_FN5728Guns.Debug("nomalIFN");
-							li = 0x000;
+							li = IFNValFire;
 							ModLoader.clientSendPacket(new Packet250CustomPayload("IFN", new byte[] {(byte)((li >>> 8) & 0xff), (byte)(li & 0xff)}));
 						}
 					}
@@ -128,7 +134,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	public int getMaxItemUseDuration(ItemStack itemstack) {
 		// リロード時は時間を変更
 		int li = getReload(itemstack);
-		if ((li >= 0x1000) && (li & 0xf000) < 0x8000) {
+		if ((li >= IFNValReloadStart) && (li & 0xf000) < IFNValReloadEnd) {
 			return reloadTime();
 		} else {
 			return super.getMaxItemUseDuration(itemstack);
@@ -146,6 +152,9 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	/**
 	 * 弾の発射。
 	 * 弾薬を別クラスにしてそっちに移すか？
+	 * @param f1:弾道安定性。
+	 * @param f2:装薬効率
+	 * @param f3:反動制御率
 	 */
 	protected void fireBullet(ItemStack itemstack, World world, EntityPlayer entityplayer, float f1, float f2, float f3) {
 		// 発射
@@ -167,7 +176,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	protected void cancelReload(ItemStack itemstack, int force) {
 		if (getReload(itemstack) >= force) {
 			// リロードのキャンセル
-			setReload(itemstack, 0);
+			setReload(itemstack, IFNValFire);
 		}
 	}
 
@@ -187,7 +196,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 
 	protected void releaseMagazin(ItemStack itemstack, World world, Entity entity) {
 		// マガジンをリリースしたときの動作、残弾を記録
-		setReload(itemstack, (0x2000 | (itemstack.getItemDamage() & 0x0fff)));
+		setReload(itemstack, (IFNValReleaseMag | (itemstack.getItemDamage() & 0x0fff)));
 		itemstack.setItemDamage(getMaxDamage());
 	}
 
@@ -228,7 +237,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 				mod_IFN_FN5728Guns.Debug(String.format("Ammo:%03d=%s(%d, %d)", li, lis.getItemName(), lis.itemID, lis.getItemDamage()));
 			}
 		}
-		setReload(itemstack, 0x8000);
+		setReload(itemstack, IFNValReloadEnd);
 		MMM_Helper.updateCheckinghSlot(entityplayer, itemstack);
 	}
 
@@ -253,7 +262,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	// littleMaidMobはこのメソッドを参照して特殊動作を行います
 	public boolean isWeaponReload(ItemStack itemstack, EntityPlayer entityplayer) {
 		// リロード実行するべきか？
-		cancelReload(itemstack, 0x8000);
+		cancelReload(itemstack, IFNValReloadEnd);
 		return isEmpty(itemstack) && canReload(itemstack, entityplayer);
 	}
 
@@ -284,7 +293,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	 * リロード中かね？
 	 */
 	public boolean isReload(ItemStack pItemstack) {
-		return getReload(pItemstack) > 0x0fff;
+		return getReload(pItemstack) >= IFNValReloadStart;
 	}
 
 	// 連射用のタイミング回路

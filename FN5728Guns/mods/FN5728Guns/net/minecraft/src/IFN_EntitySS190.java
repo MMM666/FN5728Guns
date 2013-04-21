@@ -12,8 +12,8 @@ public class IFN_EntitySS190 extends EntityThrowable {
 	protected int inTile;
 	protected int ticksInGround;
 	protected int ticksInAir;
-	private double damage;	// ダメージ倍率
-	private int knockbackStrength;		// ノックバック
+	protected double damage;	// ダメージ倍率
+	protected int knockbackStrength;		// ノックバック
 	public EntityLiving thrower;
 	public boolean isInfinity;
 	public static boolean isTracer = false;
@@ -31,8 +31,16 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		damage = 2D;
 		knockbackStrength = 0;
 		// 弾道を安定させるために耐火属性を付与
-		isImmuneToFire = !worldObj.isRemote;
+		if (worldObj != null) {
+			isImmuneToFire = !worldObj.isRemote;
+		}
 		isInfinity = false;
+	}
+
+	@Override
+	public void setWorld(World par1World) {
+		super.setWorld(par1World);
+		isImmuneToFire = !worldObj.isRemote;
 	}
 
 	public IFN_EntitySS190(World world) {
@@ -46,7 +54,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 	}
 
 	public IFN_EntitySS190(World world, EntityLiving entityliving, float f) {
-		this(world, entityliving, f, 35.8F);
+		this(world, entityliving, f, 1.0F);
 	}
 
 	public IFN_EntitySS190(World world, EntityLiving entityliving, float f, float speedRate) {
@@ -78,7 +86,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 
 	@Override
 	protected float func_70182_d() {
-		// 弾速、意味なし
+		// 弾速
 		return 35.8F;
 	}
 
