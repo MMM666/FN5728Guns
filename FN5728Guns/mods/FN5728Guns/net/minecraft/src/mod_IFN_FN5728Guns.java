@@ -28,15 +28,11 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 	public static int uniqueEntityIDSS190;
 
 
-	public static void Debug(String pMes) {
+	public static void Debug(String pText, Object... pData) {
+		// デバッグメッセージ
 		if (isDebugMessage) {
-			System.out.println(pMes);
+			System.out.println(String.format("FN5728-" + pText, pData));
 		}
-	}
-
-	@Override
-	public String getVersion() {
-		return "1.5.1-1";
 	}
 
 	@Override
@@ -50,7 +46,15 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 	}
 
 	@Override
+	public String getVersion() {
+		return "1.5.1-2";
+	}
+
+	@Override
 	public void load() {
+		// MMMLibのRevisionチェック
+		MMM_Helper.checkRevision("4");
+		
 		uniqueEntityIDSS190 = MMM_Helper.getNextEntityID(false);
 		if (ID_SS190 < 0 || uniqueEntityIDSS190 == -1) return;
 		classSS190 = MMM_Helper.getForgeClass(this, "IFN_EntitySS190");

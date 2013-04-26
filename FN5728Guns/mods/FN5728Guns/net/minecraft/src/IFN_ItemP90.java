@@ -31,9 +31,7 @@ public class IFN_ItemP90 extends IFN_ItemFN5728 {
 							// ”­Ë
 							fireBullet(itemstack, world, entityplayer, 0F, 1.0F, 0.1F);
 							resetBolt(itemstack);
-							if (li > 1) {
-								MMM_Helper.updateCheckinghSlot(entityplayer, itemstack);
-							}
+							MMM_Helper.updateCheckinghSlot(entityplayer, itemstack);
 						} else {
 							// ’eØ‚ê
 							if (canReload(itemstack, entityplayer)) {

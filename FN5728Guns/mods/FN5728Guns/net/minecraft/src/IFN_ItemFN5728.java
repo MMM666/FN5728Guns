@@ -209,6 +209,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 				itemstack.setItemDamage(0);
 			} else {
 				// インベントリから弾薬を減らす
+				boolean linfinity = EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, itemstack) > 0;
 				int lk = getReload(itemstack);
 				lk = (lk > 0) ? lk & 0x0fff : 0;
 				itemstack.setItemDamage(lk);
@@ -218,7 +219,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 						for (;lk > 0 && lis.stackSize > 0;) {
 							setAmmo(itemstack, lk--, lis);
 							itemstack.setItemDamage(itemstack.getItemDamage() - 1);
-							if (EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, itemstack) == 0) {
+							if (!linfinity) {
 								// いんふぃが付いてなかったら弾を減らす。
 								lis.stackSize--;
 							}
@@ -238,6 +239,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 			}
 		}
 		setReload(itemstack, IFNValReloadEnd);
+		clearBolt(itemstack);
 		MMM_Helper.updateCheckinghSlot(entityplayer, itemstack);
 	}
 
@@ -305,15 +307,20 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 		return (byte)1;
 	}
 
-	public void resetBolt(ItemStack pItemstack) {
+	protected void resetBolt(ItemStack pItemstack) {
 		checkTags(pItemstack);
 		pItemstack.getTagCompound().setByte("Bolt", getCycleCount(pItemstack));
+	}
+
+	protected void clearBolt(ItemStack pItemstack) {
+		checkTags(pItemstack);
+		pItemstack.getTagCompound().setByte("Bolt", (byte)0);
 	}
 
 	/**
 	 * 発射タイミングの確認
 	 */
-	public boolean cycleBolt(ItemStack pItemstack) {
+	protected boolean cycleBolt(ItemStack pItemstack) {
 		checkTags(pItemstack);
 		NBTTagCompound lnbt = pItemstack.getTagCompound();
 		byte lb = lnbt.getByte("Bolt");
@@ -326,7 +333,7 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 		}
 	}
 
-	public int getBolt(ItemStack pItemstack) {
+	protected int getBolt(ItemStack pItemstack) {
 		checkTags(pItemstack);
 		NBTTagCompound lnbt = pItemstack.getTagCompound();
 		return lnbt.getByte("Bolt");

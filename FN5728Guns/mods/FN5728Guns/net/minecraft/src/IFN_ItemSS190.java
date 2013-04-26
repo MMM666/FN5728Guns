@@ -26,6 +26,8 @@ public class IFN_ItemSS190 extends Item {
 	 */
 	protected boolean fireBullet(ItemStack itemstack, World world, EntityPlayer entityplayer, int pDamage, float f1, float f2, float f3) {
 		// 発射（エンチャント対応）
+		boolean linfinity = (EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, itemstack) > 0);
+		
 		if (!world.isRemote) {
 			IFN_EntitySS190 entityss190 = null;
 			try {
@@ -50,7 +52,7 @@ public class IFN_ItemSS190 extends Item {
 //				entityss190.setFlag(0, true);
 			}
 			// Infinity
-			entityss190.isInfinity = (EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, itemstack) > 0);
+			entityss190.isInfinity = linfinity;
 			
 			world.playSoundAtEntity(entityplayer, "FN5728.fnP90_s", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
 			world.spawnEntityInWorld(entityss190);
@@ -58,8 +60,7 @@ public class IFN_ItemSS190 extends Item {
 		// プレーヤーに対する反動制御などはここで
 		entityplayer.rotationPitch += (itemRand.nextFloat() * -3F) * f3;
 		// 無限弾のエンチャントに対応、弾薬使用時はtrueを返す
-		return (!mod_IFN_FN5728Guns.UnlimitedInfinity 
-				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, itemstack) <= 0)
+		return (!mod_IFN_FN5728Guns.UnlimitedInfinity || !linfinity)
 				&& !entityplayer.capabilities.isCreativeMode;
 	}
 
