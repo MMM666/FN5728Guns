@@ -25,7 +25,6 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 	public static Item fn_p90;
 	public static Item fn_SS190;
 	public static Class classSS190;
-	public static int uniqueEntityIDSS190;
 
 
 	public static void Debug(String pText, Object... pData) {
@@ -47,16 +46,14 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.5.2-1";
+		return "1.5.2-2";
 	}
 
 	@Override
 	public void load() {
 		// MMMLibのRevisionチェック
-		MMM_Helper.checkRevision("1");
+		MMM_Helper.checkRevision("2");
 		
-		uniqueEntityIDSS190 = MMM_Helper.getNextEntityID(false);
-		if (ID_SS190 < 0 || uniqueEntityIDSS190 == -1) return;
 		classSS190 = MMM_Helper.getForgeClass(this, "IFN_EntitySS190");
 		if (classSS190 == null) {
 			return;
@@ -70,10 +67,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 			Character.valueOf('i'), Item.ingotIron,
 			Character.valueOf('g'), Item.gunpowder
 		});
-		ModLoader.registerEntityID(classSS190, "SS190", uniqueEntityIDSS190);
-		// Modloader環境下ではfn_uniqueSS190が255以下でないとSpawnEntityが呼ばれない。
-		// 値を管理するのがめんどいのでスポーン判定は別で作る。
-		ModLoader.addEntityTracker(this, classSS190, uniqueEntityIDSS190, 64, 10, false);
+		MMM_Helper.registerEntity(classSS190, "SS190", 0, this, 64, 10, false);
 		
 		// Five-seveN
 		if (ID_FiveseveN > -1) {
@@ -106,7 +100,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 			map.put(IFN_EntitySS190.class, new IFN_RenderSS190());
 		}
 	}
-
+/*
 	@Override
 	public Entity spawnEntity(int entityId, World world, double scaledX, double scaledY, double scaledZ) {
 		// Modloader下では独自に生成するので要らない。
@@ -122,14 +116,14 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 		}
 		return null;
 	}
-
+*/
 	//Modloader
 	@Override
 	public Packet23VehicleSpawn getSpawnPacket(Entity var1, int var2) {
 		// 弾を発生させる
 		// Forge環境下では呼ばれない
 		EntityLiving lentity = ((IFN_EntitySS190)var1).thrower;
-		return new IFN_PacketSS190Spawn(var1, uniqueEntityIDSS190, lentity == null ? 0 : lentity.entityId);
+		return new IFN_PacketSS190Spawn(var1, 0, lentity == null ? 0 : lentity.entityId);
 	}
 
 	@Override

@@ -59,10 +59,12 @@ public class IFN_EntitySS190 extends EntityThrowable {
 
 	public IFN_EntitySS190(World world, EntityLiving entityliving, float f, float speedRate) {
 		super(world, (EntityLiving)MMM_Helper.getAvatarEntity(entityliving));
-		try {
-			thrower = (EntityLiving)ModLoader.getPrivateValue(EntityThrowable.class, this, 6);//entityliving;
-		} catch (Exception e) {
-		}
+		thrower = super.getThrower();
+//		try {
+//			thrower = (EntityLiving)ModLoader.getPrivateValue(EntityThrowable.class, this, 6);//entityliving;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		// f:‚Ô‚ê
 		// speed:’e‘¬
