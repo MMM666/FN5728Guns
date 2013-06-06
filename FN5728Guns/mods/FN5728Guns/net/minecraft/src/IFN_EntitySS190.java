@@ -266,8 +266,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		if (movingobjectposition.entityHit != null) {
 			// ダメージの距離減衰を付けた
 			float lfd = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
-			int ldam = (int)Math.ceil((double)lfd * damage / 10D);
-//			mod_IFN_FN5728Guns.Debug(String.format("ss190 - %d", j1));
+			int ldam = (int)Math.ceil((double)lfd * damage * 0.1D * (isInfinity ? 0.5D : 1D));
 			if (isBurning()) {
 				movingobjectposition.entityHit.setFire(5);
 			}
@@ -279,7 +278,8 @@ public class IFN_EntitySS190 extends EntityThrowable {
 				// RSHUD対策・当たり判定
 				((EntityPlayer)thrower).addStat(StatList.damageDealtStat, ldam);
 			}
-			if(movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, thrower), ldam)) {
+//			mod_IFN_FN5728Guns.Debug(String.format("ss190 - %d : %s", ldam, worldObj.isRemote ? "CL" : "SV"));
+			if (movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, thrower), ldam)) {
 				// ダメージが通った
 				if (movingobjectposition.entityHit instanceof EntityLiving) {
 					EntityLiving lel = (EntityLiving)movingobjectposition.entityHit;

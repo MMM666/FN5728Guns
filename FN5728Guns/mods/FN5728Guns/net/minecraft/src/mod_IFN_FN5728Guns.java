@@ -46,7 +46,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.5.2-2";
+		return "1.5.2-3";
 	}
 
 	@Override
