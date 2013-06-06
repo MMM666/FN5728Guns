@@ -27,7 +27,7 @@ public class IFN_RenderSS190 extends Render {
 		
 		GL11.glPushMatrix();
 		GL11.glRotatef(45F, 1.0F, 0.0F, 0.0F);
-		GL11.glTranslatef(-4F, 0.0F, 0.0F);
+		GL11.glTranslatef(-4.7F, 0.0F, 0.0F);
 		GL11.glNormal3f(f10, 0.0F, 0.0F);
 		tessellator.startDrawingQuads();
 		tessellator.setColorRGBA_F(0.5F, 0.25F, 0.0F, 1.0F);

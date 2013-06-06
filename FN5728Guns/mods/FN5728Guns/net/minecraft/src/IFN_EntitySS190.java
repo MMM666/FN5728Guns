@@ -95,9 +95,11 @@ public class IFN_EntitySS190 extends EntityThrowable {
 	@Override
 	public void setPositionAndRotation2(double par1, double par3, double par5, float par7, float par8, int par9) {
 		// •Ï‚Èˆ—‚ª‚Â‚¢‚Ä‚é‚Ì‚Åã‘‚«
-		this.setPosition(par1, par3, par5);
-		this.setRotation(par7, par8);
-		mod_IFN_FN5728Guns.Debug(String.format("move:%f, %f, %f", par1, par3, par5));
+		if (!inGround) {
+			setPosition(par1, par3, par5);
+			setRotation(par7, par8);
+		}
+//		mod_IFN_FN5728Guns.Debug(String.format("move:%f, %f, %f", par1, par3, par5));
 	}
 
 	@Override
@@ -127,6 +129,11 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		return false;
 	}
 
+	@Override
+	public boolean canAttackWithItem() {
+		return false;
+	}
+
 
 	@Override
 	public void onUpdate() {
@@ -137,8 +144,9 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		super.onEntityUpdate();
 		if (throwableShake > 0) {
 			throwableShake--;
+			isAirBorne = true;
 		}
-		if(inGround) {
+		if (inGround) {
 			if (thrower == null) {
 				setDead();
 			}
@@ -250,7 +258,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		motionZ *= f1;
 		motionY -= f2;
 		setPosition(posX, posY, posZ);
-		this.doBlockCollisions();
+		doBlockCollisions();
 	}
 
 	@Override
@@ -334,7 +342,9 @@ public class IFN_EntitySS190 extends EntityThrowable {
 					
 				}
 			}
-			mod_IFN_FN5728Guns.Debug(String.format("Block:%d, %d, %d", xTile, yTile, zTile));
+			mod_IFN_FN5728Guns.Debug("Block:%d, %d, %d", xTile, yTile, zTile);
+			isAirBorne = true;
+			velocityChanged = true;
 		}
 		if (inGround) {
 			for (int i = 0; i < 8; i++) {

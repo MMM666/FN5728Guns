@@ -19,7 +19,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 	@MLProp()
 	public static boolean UnlimitedInfinity = false;
 	@MLProp
-	public static boolean isDebugMessage = false;
+	public static boolean isDebugMessage = true;
 	
 	public static Item fn_fiveseven;
 	public static Item fn_p90;
@@ -67,7 +67,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 			Character.valueOf('i'), Item.ingotIron,
 			Character.valueOf('g'), Item.gunpowder
 		});
-		MMM_Helper.registerEntity(classSS190, "SS190", 0, this, 64, 10, false);
+		MMM_Helper.registerEntity(classSS190, "SS190", 0, this, 64, 20, false);
 		
 		// Five-seveN
 		if (ID_FiveseveN > -1) {
