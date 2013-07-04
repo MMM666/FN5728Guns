@@ -147,6 +147,17 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 		return isReload(itemstack) ? EnumAction.block : EnumAction.bow;
 	}
 
+	@Override
+	public void registerIcons(IconRegister par1IconRegister) {
+		// bow‚ÅÄ’è‹`‚µ‚Ä‚¢‚é‚Ì‚Å–ß‚·
+		itemIcon = par1IconRegister.registerIcon(func_111208_A());
+	}
+
+	@Override
+	public Icon getItemIconForUseDuration(int par1) {
+		// ‘½•ªˆÓ–¡‚È‚¢
+		return itemIcon;
+	}
 
 	// “Æ©
 	/**

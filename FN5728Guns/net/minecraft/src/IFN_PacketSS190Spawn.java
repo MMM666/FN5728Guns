@@ -1,10 +1,10 @@
 package net.minecraft.src;
 
+import java.io.DataInput;
 import java.io.DataInputStream;
+import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
-
-import net.minecraft.client.Minecraft;
 
 public class IFN_PacketSS190Spawn extends Packet23VehicleSpawn {
 	
@@ -23,36 +23,34 @@ public class IFN_PacketSS190Spawn extends Packet23VehicleSpawn {
 	}
 
 	@Override
-	public void readPacketData(DataInputStream par1DataInputStream)
-			throws IOException {
-		this.entityId = par1DataInputStream.readInt();
-		this.type = par1DataInputStream.readByte();
-		this.xPosition = par1DataInputStream.readInt();
-		this.yPosition = par1DataInputStream.readInt();
-		this.zPosition = par1DataInputStream.readInt();
-		this.throwerEntityId = par1DataInputStream.readInt();
-
+	public void readPacketData(DataInput par1DataInput) throws IOException {
+		this.entityId = par1DataInput.readInt();
+		this.type = par1DataInput.readByte();
+		this.xPosition = par1DataInput.readInt();
+		this.yPosition = par1DataInput.readInt();
+		this.zPosition = par1DataInput.readInt();
+		this.throwerEntityId = par1DataInput.readInt();
+		
 		if (this.throwerEntityId > 0) {
-			this.speedX = par1DataInputStream.readInt();
-			this.speedY = par1DataInputStream.readInt();
-			this.speedZ = par1DataInputStream.readInt();
+			this.speedX = par1DataInput.readInt();
+			this.speedY = par1DataInput.readInt();
+			this.speedZ = par1DataInput.readInt();
 		}
 	}
-	
+
 	@Override
-	public void writePacketData(DataOutputStream par1DataOutputStream)
-			throws IOException {
-		par1DataOutputStream.writeInt(this.entityId);
-		par1DataOutputStream.writeByte(this.type);
-		par1DataOutputStream.writeInt(this.xPosition);
-		par1DataOutputStream.writeInt(this.yPosition);
-		par1DataOutputStream.writeInt(this.zPosition);
-		par1DataOutputStream.writeInt(this.throwerEntityId);
+	public void writePacketData(DataOutput par1DataOutput) throws IOException {
+		par1DataOutput.writeInt(this.entityId);
+		par1DataOutput.writeByte(this.type);
+		par1DataOutput.writeInt(this.xPosition);
+		par1DataOutput.writeInt(this.yPosition);
+		par1DataOutput.writeInt(this.zPosition);
+		par1DataOutput.writeInt(this.throwerEntityId);
 
 		if (this.throwerEntityId > 0) {
-			par1DataOutputStream.writeInt(this.speedX);
-			par1DataOutputStream.writeInt(this.speedY);
-			par1DataOutputStream.writeInt(this.speedZ);
+			par1DataOutput.writeInt(this.speedX);
+			par1DataOutput.writeInt(this.speedY);
+			par1DataOutput.writeInt(this.speedZ);
 		}
 	}
 	
@@ -72,7 +70,7 @@ public class IFN_PacketSS190Spawn extends Packet23VehicleSpawn {
 			double lz = (double)this.zPosition / 32.0D;
 			
 			Entity le = (mc.thePlayer.entityId == throwerEntityId) ? mc.thePlayer : lworld.getEntityByID(throwerEntityId);
-			if (le instanceof EntityLiving) {
+			if (le instanceof EntityLivingBase) {
 				IFN_EntitySS190 lentity = new IFN_EntitySS190(lworld, lx, ly, lz);
 				lentity.serverPosX = this.xPosition;
 				lentity.serverPosY = this.yPosition;
@@ -80,7 +78,7 @@ public class IFN_PacketSS190Spawn extends Packet23VehicleSpawn {
 				lentity.rotationYaw = 0.0F;
 				lentity.rotationPitch = 0.0F;
 				lentity.entityId = this.entityId;
-				lentity.thrower = (EntityLiving)le;
+				lentity.thrower = (EntityLivingBase)le;
 				lentity.setVelocity((double)Float.intBitsToFloat(this.speedX), (double)Float.intBitsToFloat(this.speedY), (double)Float.intBitsToFloat(this.speedZ));
 				lworld.addEntityToWorld(this.entityId, lentity);
 			}

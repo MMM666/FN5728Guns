@@ -103,4 +103,10 @@ public class IFN_RenderSS190 extends Render {
 		renderSS190((IFN_EntitySS190)entity, d, d1, d2, f, f1);
 	}
 
+	@Override
+	protected ResourceLocation func_110775_a(Entity var1) {
+		// テクスチャ使いません
+		return null;
+	}
+
 }

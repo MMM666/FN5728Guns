@@ -14,7 +14,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 	protected int ticksInAir;
 	protected double damage;	// ダメージ倍率
 	protected int knockbackStrength;		// ノックバック
-	public EntityLiving thrower;
+	public EntityLivingBase thrower;
 	public boolean isInfinity;
 	public static boolean isTracer = false;
 
@@ -53,12 +53,12 @@ public class IFN_EntitySS190 extends EntityThrowable {
 		setLocationAndAngles(px, py, pz, 0F, 0F);
 	}
 
-	public IFN_EntitySS190(World world, EntityLiving entityliving, float f) {
+	public IFN_EntitySS190(World world, EntityLivingBase entityliving, float f) {
 		this(world, entityliving, f, 1.0F);
 	}
 
-	public IFN_EntitySS190(World world, EntityLiving entityliving, float f, float speedRate) {
-		super(world, (EntityLiving)MMM_Helper.getAvatarEntity(entityliving));
+	public IFN_EntitySS190(World world, EntityLivingBase entityliving, float f, float speedRate) {
+		super(world, (EntityLivingBase)MMM_Helper.getAvatarEntity(entityliving));
 		thrower = super.getThrower();
 //		try {
 //			thrower = (EntityLiving)ModLoader.getPrivateValue(EntityThrowable.class, this, 6);//entityliving;
@@ -281,9 +281,8 @@ public class IFN_EntitySS190 extends EntityThrowable {
 //			mod_IFN_FN5728Guns.Debug(String.format("ss190 - %d : %s", ldam, worldObj.isRemote ? "CL" : "SV"));
 			if (movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, thrower), ldam)) {
 				// ダメージが通った
-				if (movingobjectposition.entityHit instanceof EntityLiving) {
-					EntityLiving lel = (EntityLiving)movingobjectposition.entityHit;
-					
+				if (movingobjectposition.entityHit instanceof EntityLivingBase) {
+					EntityLivingBase lel = (EntityLivingBase)movingobjectposition.entityHit;
 					// ノックバック
 					if (knockbackStrength > 0) {
 						if (lfd > 0.0F) {
@@ -339,8 +338,10 @@ public class IFN_EntitySS190 extends EntityThrowable {
 				inGround = true;
 				if (!worldObj.isRemote) {
 					worldObj.playSoundAtEntity(this, "FN5728.bullethitBlock", 1.0F, rand.nextFloat() * 0.2F + 0.9F);
-					
+					this.playSound("random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
+//					this.playSound("FN5728.fnP90_s", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
 				}
+
 			}
 			mod_IFN_FN5728Guns.Debug("Block:%d, %d, %d", xTile, yTile, zTile);
 			isAirBorne = true;

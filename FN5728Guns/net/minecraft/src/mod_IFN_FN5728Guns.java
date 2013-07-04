@@ -1,10 +1,6 @@
 package net.minecraft.src;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.Map;
-
-import net.minecraft.client.Minecraft;
 
 public class mod_IFN_FN5728Guns extends BaseMod {
 
@@ -52,7 +48,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 	@Override
 	public void load() {
 		// MMMLibのRevisionチェック
-		MMM_Helper.checkRevision("2");
+		MMM_Helper.checkRevision("1");
 		
 		classSS190 = MMM_Helper.getForgeClass(this, "IFN_EntitySS190");
 		if (classSS190 == null) {
@@ -60,7 +56,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 		}
 		
 		// 5.7x28mm SS190
-		fn_SS190 = new IFN_ItemSS190(ID_SS190 - 256).setUnlocalizedName("SS190");
+		fn_SS190 = (new IFN_ItemSS190(ID_SS190 - 256)).setUnlocalizedName("SS190").func_111206_d("SS190");
 		ModLoader.addName(fn_SS190, "5.7x28mm SS190");
 		ModLoader.addRecipe(new ItemStack(fn_SS190, 16), new Object[] {
 			"i", "g", "g",  
@@ -71,7 +67,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 		
 		// Five-seveN
 		if (ID_FiveseveN > -1) {
-			fn_fiveseven = new IFN_ItemFiveseveN(ID_FiveseveN - 256).setUnlocalizedName("FiveSeven");
+			fn_fiveseven = (new IFN_ItemFiveseveN(ID_FiveseveN - 256)).setUnlocalizedName("FiveSeven").func_111206_d("FiveSeven");
 			ModLoader.addName(fn_fiveseven, "Five-seveN");
 			ModLoader.addRecipe(new ItemStack(fn_fiveseven, 1, fn_fiveseven.getMaxDamage()), new Object[] {
 				"iii", "  i", 
@@ -81,7 +77,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 		
 		// P90
 		if (ID_P90 > -1) {
-			fn_p90 = new IFN_ItemP90(ID_P90 - 256).setUnlocalizedName("P90");
+			fn_p90 = (new IFN_ItemP90(ID_P90 - 256)).setUnlocalizedName("P90").func_111206_d("P90");
 			ModLoader.addName(fn_p90, "P90");
 			ModLoader.addRecipe(new ItemStack(fn_p90, 1, fn_p90.getMaxDamage()), new Object[] {
 				"i  ", "iii", "iii", 
@@ -91,6 +87,9 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 		
 		// タクティカルリロード用パケット
 		ModLoader.registerPacketChannel(this, "IFN");
+		
+		// 音声追加実験
+		MMM_Helper.mc.sndManager.addSound("FN5728/fnP90_s.ogg");
 	}
 
 	@Override
@@ -122,7 +121,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 	public Packet23VehicleSpawn getSpawnPacket(Entity var1, int var2) {
 		// 弾を発生させる
 		// Forge環境下では呼ばれない
-		EntityLiving lentity = ((IFN_EntitySS190)var1).thrower;
+		EntityLivingBase lentity = ((IFN_EntitySS190)var1).thrower;
 		return new IFN_PacketSS190Spawn(var1, 0, lentity == null ? 0 : lentity.entityId);
 	}
 

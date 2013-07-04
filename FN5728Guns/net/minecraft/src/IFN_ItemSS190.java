@@ -32,7 +32,7 @@ public class IFN_ItemSS190 extends Item {
 			IFN_EntitySS190 entityss190 = null;
 			mod_IFN_FN5728Guns.Debug("Gunner:%s", entityplayer == null ? "NULL" : entityplayer.getClass().getSimpleName());
 			try {
-				Constructor<IFN_EntitySS190> lconstructor = mod_IFN_FN5728Guns.classSS190.getConstructor(World.class, EntityLiving.class, float.class, float.class);
+				Constructor<IFN_EntitySS190> lconstructor = mod_IFN_FN5728Guns.classSS190.getConstructor(World.class, EntityLivingBase.class, float.class, float.class);
 				entityss190 = lconstructor.newInstance(world, entityplayer, 2.0F - f1, f2);
 			} catch (Exception e) {
 				e.printStackTrace();

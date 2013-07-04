@@ -1,8 +1,5 @@
 package net.minecraft.src;
 
-import java.lang.reflect.Field;
-
-import net.minecraft.client.Minecraft;
 
 public class IFN_ItemP90 extends IFN_ItemFN5728 {
 
