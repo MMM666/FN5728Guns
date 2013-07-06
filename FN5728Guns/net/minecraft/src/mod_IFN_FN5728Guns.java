@@ -42,7 +42,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.5.2-3";
+		return "1.6.1-1";
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 		ModLoader.registerPacketChannel(this, "IFN");
 		
 		// âπê∫í«â¡é¿å±
-		MMM_Helper.mc.sndManager.addSound("FN5728/fnP90_s.ogg");
+//		MMM_Helper.mc.sndManager.addSound("FN5728/fnP90_s.ogg");
 	}
 
 	@Override

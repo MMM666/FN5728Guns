@@ -59,6 +59,7 @@ public class IFN_ItemSS190 extends Item {
 				entityss190.isInfinity = linfinity;
 				
 				world.playSoundAtEntity(entityplayer, "FN5728.fnP90_s", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+//				world.playSoundAtEntity(entityplayer, "assets.sound.FN5728.fnP90_s", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
 				world.spawnEntityInWorld(entityss190);
 				
 			}
