@@ -42,7 +42,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.6.1-1";
+		return "1.6.2-1";
 	}
 
 	@Override
@@ -99,23 +99,7 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 			map.put(IFN_EntitySS190.class, new IFN_RenderSS190());
 		}
 	}
-/*
-	@Override
-	public Entity spawnEntity(int entityId, World world, double scaledX, double scaledY, double scaledZ) {
-		// Modloaderâ∫Ç≈ÇÕì∆é©Ç…ê∂ê¨Ç∑ÇÈÇÃÇ≈óvÇÁÇ»Ç¢ÅB
-		// Ç∆Ç¢Ç§Ç©ModLoaderä¬ã´Ç≈ÇÕIDÇ™3000à»è„Ç…Ç»ÇÈÇÃÇ≈Ç±Ç±ÇÕåƒÇŒÇÍÇ»Ç¢ÅB
-		if (!MMM_Helper.isForge) return null;
-		try {
-			Constructor<IFN_EntitySS190> lconstructor = classSS190.getConstructor(World.class);
-			IFN_EntitySS190 lentity = lconstructor.newInstance(world);
-			lentity.entityId = entityId;
-			lentity.setPosition(scaledX, scaledY, scaledZ);
-			return lentity;
-		} catch (Exception e) {
-		}
-		return null;
-	}
-*/
+
 	//Modloader
 	@Override
 	public Packet23VehicleSpawn getSpawnPacket(Entity var1, int var2) {

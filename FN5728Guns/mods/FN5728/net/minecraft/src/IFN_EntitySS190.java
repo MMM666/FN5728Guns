@@ -343,7 +343,7 @@ public class IFN_EntitySS190 extends EntityThrowable {
 				}
 
 			}
-			mod_IFN_FN5728Guns.Debug("Block:%d, %d, %d", xTile, yTile, zTile);
+//			mod_IFN_FN5728Guns.Debug("Block:%d, %d, %d", xTile, yTile, zTile);
 			isAirBorne = true;
 			velocityChanged = true;
 		}

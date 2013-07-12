@@ -1,4 +1,4 @@
-FN社の5.7x28mm弾使用銃器追加MOD FN5728 1.5.2 Rev3
+FN社の5.7x28mm弾使用銃器追加MOD FN5728 1.6.2 Rev1
 
 射撃武器としてFN Five-seveNとFN P90っぽいのをを追加します。
 littleMaidMob対応射撃兵装サンプル。
@@ -15,9 +15,11 @@ littleMaidMob対応射撃兵装サンプル。
 
 使い方
 	要Modloader
-	要AudioMod
+	要AudioMod(IBXMを使用しないのであれば不要)
 	要MMMLib
-	zipファイルを解凍して出来たフォルダを/.minecraft/以下に放り込めば動くはずです。
+	zipファイルを解凍して出来たフォルダを以下に放り込めば動くはずです。
+	/mods/の中身を%appdata%/.minecraft/versions/1.6.2ML/mods/へ
+	/assets/の中身を%appdata%/.minecraft/assets/へ
 	%appdata%/.mincraft/config/mod_FN5728Guns.cfgができるので設定はそちらで。
 
 
@@ -159,11 +161,13 @@ littleMaidMob対応射撃兵装サンプル。
 
 
 変更点
+	20130713.1	1.6.2 Rev1 バージョンアップ
+
+
+
 	20130606.1	1.5.2 Rev3 更新
 				着弾表示の対策、浮かなくなりましたが他でおかしくなるかも？
 				Infinityが付いている時の弱装化、具体的には威力半減。
-
-
 	20130522.1	1.5.2 Rev2 更新
 				Entityの登録方法の変更。
 	20130507.1	1.5.2 Rev1 バージョンアップ

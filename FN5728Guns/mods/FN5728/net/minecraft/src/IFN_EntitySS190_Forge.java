@@ -17,11 +17,11 @@ public class IFN_EntitySS190_Forge extends IFN_EntitySS190 implements IEntityAdd
 		super(world, d, d1, d2);
 	}
 
-	public IFN_EntitySS190_Forge(World world, EntityLiving entityliving, float f) {
+	public IFN_EntitySS190_Forge(World world, EntityLivingBase entityliving, float f) {
 		super(world, entityliving, f);
 	}
 
-	public IFN_EntitySS190_Forge(World world, EntityLiving entityliving, float f, float speed) {
+	public IFN_EntitySS190_Forge(World world, EntityLivingBase entityliving, float f, float speed) {
 		super(world, entityliving, f, speed);
 	}
 
@@ -41,8 +41,8 @@ public class IFN_EntitySS190_Forge extends IFN_EntitySS190 implements IEntityAdd
 		int lthrower = data.readInt();
 		if (lthrower != 0) {
 			Entity lentity = worldObj.getEntityByID(lthrower);
-			if (lentity instanceof EntityLiving) {
-				thrower = (EntityLiving)lentity;
+			if (lentity instanceof EntityLivingBase) {
+				thrower = (EntityLivingBase)lentity;
 			}
 		}
 		motionX = (double)Float.intBitsToFloat(data.readInt());

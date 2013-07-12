@@ -22,7 +22,7 @@ public class IFN_ItemP90 extends IFN_ItemFN5728 {
 					if (lflag) {
 						// ”­ŽË
 						int lj = getReload(itemstack);
-						mod_IFN_FN5728Guns.Debug(String.format("P90-FireWorks-remort:%b, vol:%04x", world.isRemote, lj));
+//						mod_IFN_FN5728Guns.Debug(String.format("P90-FireWorks-remort:%b, vol:%04x", world.isRemote, lj));
 						int li = getMaxDamage() - itemstack.getItemDamage();
 						if (li > 0) {
 							// ”­ŽË
