@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class IFN_ItemFN5728 extends ItemBow {
+public abstract class IFN_ItemFN5728 extends IFN_ItemFN5728Pre {
 	
 	/*
 	 * リロードのシーケンス
@@ -43,14 +43,14 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 		reloadMagazin(par1ItemStack, par2World, par3EntityPlayer);
 		return par1ItemStack;
 	}
-	
+
 	@Override
 	public void onPlayerStoppedUsing(ItemStack itemstack, World world, EntityPlayer entityplayer, int i) {
 		// リロード中止
 		mod_IFN_FN5728Guns.Debug(String.format("onPlayerStoppedUsing-remort:%b", world.isRemote));
 		cancelReload(itemstack, IFNValReloadEnd);
 	}
-	
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World world,	EntityPlayer entityplayer) {
 		// トリガー
@@ -145,18 +145,6 @@ public abstract class IFN_ItemFN5728 extends ItemBow {
 	public EnumAction getItemUseAction(ItemStack itemstack) {
 		// リロード時は構えが違う
 		return isReload(itemstack) ? EnumAction.block : EnumAction.bow;
-	}
-
-	@Override
-	public void registerIcons(IconRegister par1IconRegister) {
-		// bowで再定義しているので戻す
-		itemIcon = par1IconRegister.registerIcon(func_111208_A());
-	}
-
-	@Override
-	public Icon getItemIconForUseDuration(int par1) {
-		// 多分意味ない
-		return itemIcon;
 	}
 
 	// 独自
