@@ -42,13 +42,13 @@ public class mod_IFN_FN5728Guns extends BaseMod {
 
 	@Override
 	public String getVersion() {
-		return "1.6.2-2";
+		return "1.6.2-3";
 	}
 
 	@Override
 	public void load() {
 		// MMMLibのRevisionチェック
-		MMM_Helper.checkRevision("1");
+		MMM_Helper.checkRevision("3");
 		
 		classSS190 = MMM_Helper.getForgeClass(this, "IFN_EntitySS190");
 		if (classSS190 == null) {
