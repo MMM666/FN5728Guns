@@ -1,0 +1,16 @@
+[
+{
+  "modid": "FN5728Guns",
+  "name": "FN5728Guns",
+  "description": "The Guns of Fabrique Nationale using 5.7x28mm Ammo. ",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authors": ["MMM"],
+  "credits": "created by MMM",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

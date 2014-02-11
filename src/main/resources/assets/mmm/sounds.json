@@ -1,0 +1,63 @@
+{
+  "FN5728.57.fire": {
+    "category": "neutral",
+    "sounds": [
+      "FN5728/fnP90_s"
+    ]
+  },
+  "FN5728.57.hit": {
+    "category": "neutral",
+    "sounds": [
+      "FN5728/hitFive-seveN"
+    ]
+  },
+  "FN5728.57.empty": {
+    "category": "neutral",
+    "sounds": [
+      "FN5728/emptyFive-seveN"
+    ]
+  },
+  "FN5728.57.release": {
+    "category": "neutral",
+    "sounds": [
+      "FN5728/releaseFive-seveN"
+    ]
+  },
+  "FN5728.57.reload": {
+    "category": "neutral",
+    "sounds": [
+      "FN5728/reloadP90s"
+    ]
+  },
+  "FN5728.P90.fire": {
+    "category": "neutral",
+    "sounds": [
+      "FN5728/fnP90_s"
+    ]
+  },
+  "FN5728.P90.hit": {
+    "category": "neutral",
+    "sounds": [
+      "FN5728/hitP90s"
+    ]
+  },
+  "FN5728.P90.empty": {
+    "category": "neutral",
+    "sounds": [
+      "FN5728/emptyP90s"
+    ]
+  },
+  "FN5728.P90.release": {
+    "category": "neutral",
+    "sounds": [
+      "FN5728/releaseP90s"
+    ]
+  },
+  "FN5728.P90.reload": {
+    "category": "neutral",
+    "sounds": [
+      "FN5728/reloadFive-seveN"
+    ]
+  }
+
+}
