@@ -3,6 +3,7 @@ package mmm.FN5728Guns;
 import java.io.File;
 
 import mmm.lib.Guns.EntityBulletBase;
+import mmm.lib.Guns.GunsBase;
 import mmm.lib.Guns.RenderBulletBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -64,6 +65,7 @@ public class FN5728Guns {
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent pEvent) {
 		// 一応ドキュメント上ではここでレシピとかを宣言するらしい。
+		GunsBase.init();
 		// レシピ
 		// 5.7x28mm SS190
 		GameRegistry.addRecipe(new ItemStack(fn_SS190, 16),

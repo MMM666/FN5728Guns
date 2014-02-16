@@ -9,9 +9,28 @@ import net.minecraft.world.World;
 public class ItemBulletBase extends Item {
 
 	public ItemBulletBase() {
-		// TODO Auto-generated constructor stub
 		setCreativeTab(CreativeTabs.tabCombat);
 	}
+
+	/**
+	 * 基準発射速度
+	 * @param pBullet
+	 * @return
+	 */
+	public float getSpeed(ItemStack pBullet) {
+		// 500m/s
+		return 25F;
+	}
+
+	/**
+	 * 集弾性
+	 * @param pBullet
+	 * @return
+	 */
+	public float getReaction(ItemStack pBullet) {
+		return 1.0F;
+	}
+
 
 	/**
 	 * 弾薬に関連付けられたEntityを返す。
@@ -22,7 +41,11 @@ public class ItemBulletBase extends Item {
 	 * @return
 	 */
 	public EntityBulletBase getBulletEntity(ItemStack pGun, ItemStack pBullet, World pWorld, EntityPlayer pPlayer) {
-		return new EntityBulletBase(pWorld, pPlayer);
+		// 標準弾体
+		ItemGunsBase lgun = ((ItemGunsBase)pGun.getItem());
+		return new EntityBulletBase(pWorld, pPlayer, pGun, pBullet,
+				getSpeed(pBullet) * lgun.getEfficiency(pGun),
+				getReaction(pBullet) * lgun.getStability(pGun));
 	}
 
 	/**

@@ -26,7 +26,7 @@
   "FN5728.57.reload": {
     "category": "neutral",
     "sounds": [
-      "FN5728/reloadP90s"
+      "FN5728/reloadFive-seveN"
     ]
   },
   "FN5728.P90.fire": {
@@ -56,7 +56,7 @@
   "FN5728.P90.reload": {
     "category": "neutral",
     "sounds": [
-      "FN5728/reloadFive-seveN"
+      "FN5728/reloadP90s"
     ]
   }
 

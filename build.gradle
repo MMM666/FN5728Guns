@@ -29,3 +29,7 @@ eclipseJdt << {
     f.append('encoding/<project>=')
     f.append(defaultEncoding)
 }
+
+//task eclipse(overwrite: true) << {
+//    println gradle.rootProject.projectDir
+//}
