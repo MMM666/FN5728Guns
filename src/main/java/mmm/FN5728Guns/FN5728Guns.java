@@ -2,15 +2,15 @@ package mmm.FN5728Guns;
 
 import java.io.File;
 
-import mmm.lib.Guns.EntityBulletBase;
-import mmm.lib.Guns.GunsBase;
-import mmm.lib.Guns.RenderBulletBase;
+import mmm.lib.ProxyCommon;
+import mmm.lib.guns.EntityBulletBase;
+import mmm.lib.guns.GunsBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -23,6 +23,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 		)
 public class FN5728Guns {
 
+	@SidedProxy(clientSide = "mmm.FN5728Guns.ProxyClient", serverSide = "mmm.lib.ProxyCommon")
+	public static ProxyCommon proxy;
+	
 	public static boolean isArmorPiercing = true; 
 	public static boolean UnlimitedInfinity = false;
 	public static boolean isDebugMessage = true;
@@ -50,7 +53,7 @@ public class FN5728Guns {
 		lconf.save();
 		
 		// アイテムの登録
-		fn_SS190		= new ItemSS190().setUnlocalizedName("ss190").setTextureName("mmm:SS190");
+		fn_SS190		= new ItemSS190().setUnlocalizedName("ss19").setTextureName("mmm:SS190");
 		fn_fiveseven	= new ItemFiveseveN().setUnlocalizedName("fiveseven").setTextureName("mmm:FiveseveN");
 		fn_p90			= new ItemP90().setUnlocalizedName("p90").setTextureName("mmm:P90");
 		
@@ -75,6 +78,24 @@ public class FN5728Guns {
 				'i', Items.iron_ingot,
 				'g', Items.gunpowder
 			);
+		// 5.7x28mm L191
+		GameRegistry.addRecipe(new ItemStack(fn_SS190, 16, 1),
+				"ir",
+				"g ",
+				"g ",
+				'i', Items.iron_ingot,
+				'g', Items.gunpowder,
+				'r', new ItemStack(Items.dye, 1, 1)
+			);
+		// 5.7x28mm SS197SR
+		GameRegistry.addRecipe(new ItemStack(fn_SS190, 20, 7),
+				"ir",
+				"g ",
+				"g ",
+				'i', Items.iron_ingot,
+				'g', Items.gunpowder,
+				'r', new ItemStack(Items.dye, 1, 12)
+			);
 		// Five-seveN
 		GameRegistry.addRecipe(new ItemStack(fn_fiveseven, 1, fn_fiveseven.getMaxDamage()),
 				"iii",
@@ -89,9 +110,9 @@ public class FN5728Guns {
 				"iii", 
 				'i', Items.iron_ingot
 			);
-		// レンダラの登録
-		RenderingRegistry.registerEntityRenderingHandler(EntityBulletBase.class, new RenderBulletBase());
 		
+		// レンダラの登録
+		proxy.init();
 		
 		
 //		FMLCommonHandler.instance().bus().register(new RefinedMilitaryShovelReplicaEventHandler());

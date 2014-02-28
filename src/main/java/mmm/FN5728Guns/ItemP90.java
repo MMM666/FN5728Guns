@@ -1,6 +1,6 @@
 package mmm.FN5728Guns;
 
-import mmm.lib.Guns.ItemGunsBurstBase;
+import mmm.lib.guns.ItemGunsBurstBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -11,12 +11,8 @@ public class ItemP90 extends ItemGunsBurstBase {
 		setMaxDamage(50);
 	}
 
-	@Override
-	public void reloadMagazin(ItemStack pGun, World pWorld, EntityPlayer pPlayer) {
-		while (getDamage(pGun) > 0) {
-			loadBullet(pGun, new ItemStack(FN5728Guns.fn_SS190));
-		}
-		soundReload(pWorld, pPlayer, pGun);
+	public boolean checkAmmo(ItemStack pItemStack) {
+		return pItemStack.getItem() instanceof ItemSS190;
 	}
 
 	public void soundEmpty(World pWorld, EntityPlayer pPlayer, ItemStack pGun) {
@@ -54,8 +50,9 @@ public class ItemP90 extends ItemGunsBurstBase {
 	}
 
 	@Override
-	public float getStability(ItemStack pGun) {
-		return 0.5F;
+	public float getStability(ItemStack pGun, EntityPlayer pPlayer, int pUseCount) {
+		// しゃがむを照準の安定が増す
+		return pPlayer.isSneaking() ? 1.0F : 2.0F;
 	}
 
 }

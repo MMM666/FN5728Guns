@@ -11,6 +11,9 @@
   "credits": "created by MMM",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "useDependencyInformation": "true",
+  "dependencies": ["MMMLib"],
+  "dependants": [],
+  "requiredMods": ["MMMLib"]
 }
 ]

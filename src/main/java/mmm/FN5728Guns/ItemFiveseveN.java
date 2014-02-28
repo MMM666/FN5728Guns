@@ -1,6 +1,6 @@
 package mmm.FN5728Guns;
 
-import mmm.lib.Guns.ItemGunsBase;
+import mmm.lib.guns.ItemGunsBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -11,12 +11,8 @@ public class ItemFiveseveN extends ItemGunsBase {
 		setMaxDamage(20);
 	}
 
-	@Override
-	public void reloadMagazin(ItemStack pGun, World pWorld, EntityPlayer pPlayer) {
-		while (getDamage(pGun) > 0) {
-			loadBullet(pGun, new ItemStack(FN5728Guns.fn_SS190));
-		}
-		soundReload(pWorld, pPlayer, pGun);
+	public boolean checkAmmo(ItemStack pItemStack) {
+		return pItemStack.getItem() instanceof ItemSS190;
 	}
 
 	public void soundEmpty(World pWorld, EntityPlayer pPlayer, ItemStack pGun) {
@@ -43,5 +39,24 @@ public class ItemFiveseveN extends ItemGunsBase {
 		return 10;
 	}
 
+	@Override
+	public float getEfficiency(ItemStack pGun, EntityPlayer pPlayer, int pUseCount) {
+		return 0.908F;
+	}
+
+	@Override
+	public float getStability(ItemStack pGun, EntityPlayer pPlayer, int pUseCount) {
+		// しゃがみの時は少し早く照準が安定する
+		float lf = (pPlayer.isSneaking() ? 30F : 40F);
+		lf = lf - Math.min((float)pUseCount, lf);
+		lf = lf * lf / 100F + 0.1F;
+		FN5728Guns.Debug("%f, %d", lf, pUseCount);
+		return lf;
+	}
+
+	@Override
+	public void onRecoile(ItemStack pGun, World pWorld, EntityPlayer pPlayer, int pUseCount) {
+		
+	}
 
 }

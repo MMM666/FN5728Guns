@@ -5,6 +5,10 @@ compileJava {
     options.encoding = defaultEncoding
 }
 
+dependencies {
+    compile project(':MMMLib')
+}
+
 processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
