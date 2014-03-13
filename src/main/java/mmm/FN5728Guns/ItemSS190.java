@@ -19,7 +19,15 @@ public class ItemSS190 extends ItemBulletBase {
 	public ItemSS190() {
 		setHasSubtypes(true);
 	}
-
+/*
+	public EntityBulletBase getBulletEntity(ItemStack pGun, ItemStack pBullet, World pWorld, EntityPlayer pPlayer, int pUseCount) {
+		// 弾体
+		ItemGunsBase lgun = ((ItemGunsBase)pGun.getItem());
+		return new EntityBulletBase(pWorld, pPlayer, pGun, pBullet,
+				getSpeed(pBullet) * lgun.getEfficiency(pGun, pPlayer, pUseCount),
+				lgun.getAccuracy(pGun, pPlayer, pUseCount));
+	}
+*/
 	@Override
 	public float getSpeed(ItemStack pBullet) {
 		// SS190	: 716m/s
@@ -30,11 +38,12 @@ public class ItemSS190 extends ItemBulletBase {
 
 	@Override
 	public float getReaction(ItemStack pBullet) {
-		return 1.0F;
+		// 初速に応じて反動を制御
+		return getSpeed(pBullet) / 35.8F;
 	}
 
 	@Override
-	public void soundFire(World pWorld, EntityPlayer pPlayer, ItemStack pGun, ItemStack pBullet) {
+	public void playSoundFire(World pWorld, EntityPlayer pPlayer, ItemStack pGun, ItemStack pBullet) {
 		if (pGun.getItem() instanceof ItemP90) {
 			pWorld.playSoundAtEntity(pPlayer, "mmm:FN5728.P90.fire",
 					0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));

@@ -35,6 +35,10 @@ public class RenderSS190 extends RenderBulletBase {
 			int lcolor = getColor(pEntity);
 			Tessellator tessellator = Tessellator.instance;
 			double ll = (double)-pEntity.speed * 2D;
+//			double lx = (pEntity.posX - pEntity.lastTickPosX) * var9;
+//			double ly = (pEntity.posY - pEntity.lastTickPosY) * var9;
+//			double lz = (pEntity.posZ - pEntity.lastTickPosZ) * var9;
+//			double ll = -MathHelper.sqrt_double(lx * lx + ly * ly + lz * lz);
 			for (int j = 0; j < 2; j++) {
 				GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
 //				GL11.glNormal3f(0.0F, 0.0F, f10);
