@@ -24,7 +24,7 @@ public class ItemFiveseveN extends ItemGunsBase {
 		stabilityYawOffset = -3.0F;
 		accuracy = 1.0F;
 		
-		iconNames = new String[] {"mmm:FiveseveN", "mmm:FiveseveN_Empty" ,"mmm:FiveseveN_Release"};
+		iconNames = new String[] {"mmm:FiveSeven", "mmm:FiveSeven_Empty" ,"mmm:FiveSeven_Release"};
 		bullets = new String[] {"FN5728Guns:SS190"};
 	}
 

@@ -5,7 +5,6 @@ import java.io.File;
 import mmm.lib.ProxyCommon;
 import mmm.lib.guns.EntityBulletBase;
 import mmm.lib.guns.GunsBase;
-import mmm.lib.guns.ItemGunsBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -55,15 +54,15 @@ public class FN5728Guns {
 		
 		// アイテムの登録
 		fn_SS190		= new ItemSS190().setUnlocalizedName("ss19").setTextureName("mmm:SS190");
-		fn_fiveseven	= new ItemFiveseveN().setUnlocalizedName("fiveseven").setTextureName("mmm:FiveseveN");
+		fn_fiveseven	= new ItemFiveseveN().setUnlocalizedName("fiveseven").setTextureName("mmm:FiveSeven");
 		fn_p90			= new ItemP90().setUnlocalizedName("p90").setTextureName("mmm:P90");
 		
 		GameRegistry.registerItem(fn_SS190, "SS190");
 		GameRegistry.registerItem(fn_fiveseven, "FiveseveN");
 		GameRegistry.registerItem(fn_p90, "P90");
 		
-		((ItemGunsBase)fn_fiveseven).init();
-		((ItemGunsBase)fn_p90).init();
+//		((ItemGunsBase)fn_fiveseven).init();
+//		((ItemGunsBase)fn_p90).init();
 		
 		EntityRegistry.registerModEntity(EntityBulletBase.class, "BulletBase", 0, this, 120, 1, false);
 		

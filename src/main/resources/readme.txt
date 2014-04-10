@@ -1,4 +1,4 @@
-FN社の5.7x28mm弾使用銃器追加MOD FN5728 1.6.2 Rev3
+FN社の5.7x28mm弾使用銃器追加MOD FN5728 1.7.2 Rev1x
 
 射撃武器としてFN Five-seveNとFN P90っぽいのをを追加します。
 littleMaidMob対応射撃兵装サンプル。
@@ -14,13 +14,9 @@ littleMaidMob対応射撃兵装サンプル。
 
 
 使い方
-	要Modloader
-	要AudioMod(IBXMを使用しないのであれば不要)
 	要MMMLib
-	zipファイルを解凍して出来たフォルダを以下に放り込めば動くはずです。
-	/mods/の中身を%appdata%/.minecraft/versions/1.6.2ML/mods/へ
-	/assets/の中身を%appdata%/.minecraft/assets/へ
-	%appdata%/.mincraft/config/mod_FN5728Guns.cfgができるので設定はそちらで。
+	jarファイルを/mods/に放り込めば動くはずです。
+	%appdata%/.mincraft/config/FN5728Guns.cfgができるので設定はそちらで。
 
 
 
@@ -33,12 +29,26 @@ littleMaidMob対応射撃兵装サンプル。
 	・弾薬が残っている状態でも、左クリックをしながら右プレス＆ホールドでタクティカルリロードが出来ます。
 	・リロードするときはインベントリに弾薬を入れておいて下さい。
 	・ダメージ表示はマガジン内の残弾を表しています。
+	・弾薬は現在３種類です。
+		SS190	:通常弾
+		L191	:曳光弾
+		SS197SR	:練習弾、若干威力が弱めです。
 
 
 
 レシピ
 	5.7x28mm SS190	x 16
 		I
+		G
+		G
+
+	5.7x28mm L191	x 16
+		IR
+		G
+		G
+
+	5.7x28mm SS197SRx 20
+		IL
 		G
 		G
 
@@ -53,14 +63,14 @@ littleMaidMob対応射撃兵装サンプル。
 
 	I: IronIngot
 	G: Gunpowder
+	R: Red Dye
+	L: LightBlue Dye
 
 
 
 注意
 	・バックアップはこまめに取りましょう。
-	・アイテムIDはデフォルトで22240 - 22242です。
 	・アイテム追加系MODなのでバージョンアップ前にはこのMODで作成したアイテムは消しておきましょう。
-	・アイテムIDを0以下に設定すると無効化されます。
 	・P90の連射速度は600発/分と実銃の2/3です。
 	・一度リロードに入ったら左クリックは離してもかまいません。
 	・レシピが素材的におかしいのは仕様です、だってプラスチックとかないし。
@@ -88,73 +98,6 @@ littleMaidMob対応射撃兵装サンプル。
 
 
 開発者向けのお話
-	このMODはlittleMaidMobで特殊な動作をさせる為のサンプルコードを含んでいます。
-	ソースコードを参照して組み込んでみてください。
-	※現在ソースが若干変わっているため、この通りではありませんのでご注意下さい。
-
-	・渡されたEntityから欲しい情報を引き出す。
-		EntityLittleMaid	extends EntityAnimal
-		EntityLittleMaidAvatar	extends EntityPlayer
-		InventoryLittleMaid	extends InventoryPlayer
-
-
-		EntityLittleMaidAvatar EntitylittleMaid.maidAvatarEntity
-			射撃を行う際の身代わりEntity、これを使ってitemstack.useItemRightClick等を呼び出している。
-			このEntityはisDeadが常にtrue。
-
-		InventoryLittleMaid EntitylittleMaid.maidInventory
-			メイドインベントリ、mainInventory[18]、armorInventory[4]。
-			InventoryPlayerと完全互換。
-
-		EntityLittleMaid EntityLittleMaidAvatar.avatar
-			身代わりEntityの親となるEntityLittleMaidを保持している。
-
-	・あると素敵なメソッド
-		 littleMaidは使用するItemクラスに以下の関数がある場合値を参照します。
-		 無い場合は通常の動作を行います。
-
-		public boolean isWeaponReload(ItemStack itemstack, EntityPlayer entityplayer);
-			アイテムがリロードを必要としている状態の時にTrueを返します。
-			リロードが完了するまではTrueのまま値を固定してください。
-			ターゲットをロックしていない状態でもリロードを行うようになります。
-
-		public boolean isWeaponFullAuto(ItemStack itemstack);
-			アイテムがフルオートで射撃を行う場合にTrueを返します。
-			フルオートの定義はonPlayerStoppedUsingが呼ばれるまでの間にonUpdate等で射撃を実行するものです。
-			射線軸判定の時に使用しています。
-
-	・コーディング時の注意
-		 itemstack.useItemRightClickを呼び出している都合上、
-		飛翔体のEntityを作成する時にEntityLittleMaidAvatarが渡されることになります。
-		このままEntityを作成すると撃ったLittleMaidとは違うEntityが実際の射撃を行うことになり、
-		射撃位置や、射手の情報がおかしなことになってしまいます。
-		 一応littleMaid側に回避処理を書いてはありますが完全ではないので、
-		Entity作成時にEntityLittleMaidAvatar.avatarの値を使って処理を行う事を推奨します。
-		 また、EntityLittleMaidAvatar.isDead=trueであるため、
-		状況によってはこの部分で問題が発生することもあるようです。
-
-	・実際のコード
-		 引数としてEntityLittleMaidAvatarが渡された場合にEntityLittleMaidを取得する場合。
-			try {
-				// 射手の情報をEntityLittleMaidAvatarからEntityLittleMaidへ置き換える
-				Field field = entityliving.getClass().getField("avatar");
-				entityliving = (EntityLiving)field.get(entityliving);
-			}
-			catch (NoSuchFieldException e) {
-			}
-			catch (Exception e) {
-			}
-
-		引数としてEntityLittleMaidが渡された場合にEntityLittleMaidAvatarを取得する場合。
-			try {
-				// インベントリの情報を使いたいのでEntityLittleMaidAvaterへ置き換えている
-				Field field = entity.getClass().getField("maidAvatarEntity");
-				entity = (Entity)field.get(entity);
-			}
-			catch (NoSuchFieldException e) {
-			}
-			catch (Exception e) {
-			}
 
 
 
